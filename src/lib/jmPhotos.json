@@ -1,0 +1,232 @@
+{
+  "infancia-01": {
+    "archivo": "infancia/01-navidad-bebe_no tenia ni el año.jpeg",
+    "edad": 0,
+    "anio": null
+  },
+  "infancia-02": {
+    "archivo": "infancia/02-carro-de-carreras_1 año.jpeg",
+    "edad": 1,
+    "anio": null
+  },
+  "infancia-03": {
+    "archivo": "infancia/03-rodadero-azul 5.jpeg",
+    "edad": 5,
+    "anio": null
+  },
+  "infancia-04": {
+    "archivo": "infancia/04-primera-bicicleta_7.jpeg",
+    "edad": 7,
+    "anio": null
+  },
+  "infancia-05": {
+    "archivo": "infancia/05-con-nina-uniforme_2 y medio.jpeg",
+    "edad": 2,
+    "anio": null
+  },
+  "infancia-06": {
+    "archivo": "infancia/06-uniforme-en-el-campo_3-4.jpeg",
+    "edad": 3,
+    "anio": null
+  },
+  "infancia-07": {
+    "archivo": "infancia/07-balancin_4.jpeg",
+    "edad": 4,
+    "anio": null
+  },
+  "infancia-08": {
+    "archivo": "infancia/08-columpio-parque_5.jpeg",
+    "edad": 5,
+    "anio": null
+  },
+  "infancia-09": {
+    "archivo": "infancia/09-columpio-parque-2.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "infancia-10": {
+    "archivo": "infancia/10-columpio-montana_10.jpeg",
+    "edad": 10,
+    "anio": null
+  },
+  "infancia-11": {
+    "archivo": "infancia/11-rodadero_3-4.jpeg",
+    "edad": 3,
+    "anio": null
+  },
+  "infancia-12": {
+    "archivo": "infancia/12-cumpleanos-2 anos.jpeg",
+    "edad": 2,
+    "anio": null
+  },
+  "infancia-13": {
+    "archivo": "infancia/13-patineta5-6.jpeg",
+    "edad": 5,
+    "anio": null
+  },
+  "infancia-14": {
+    "archivo": "infancia/14-uniforme-colegio3-4.jpeg",
+    "edad": 3,
+    "anio": null
+  },
+  "infancia-15": {
+    "archivo": "infancia/15-maleta-de-ruedas7.jpeg",
+    "edad": 7,
+    "anio": null
+  },
+  "infancia-16": {
+    "archivo": "infancia/16-uniforme-en-la-puerta6.jpeg",
+    "edad": 6,
+    "anio": null
+  },
+  "infancia-17": {
+    "archivo": "infancia/17-familia-con-la-abuela6,  y no es mi abuela.jpeg",
+    "edad": 6,
+    "anio": null
+  },
+  "infancia-18": {
+    "archivo": "infancia/18-sala-con-poncho_7.jpeg",
+    "edad": 7,
+    "anio": null
+  },
+  "infancia-19": {
+    "archivo": "infancia/19-banca-del-corredor_9.jpeg",
+    "edad": 9,
+    "anio": null
+  },
+  "infancia-20": {
+    "archivo": "infancia/20-disfraz-amarillo_9.jpeg",
+    "edad": 9,
+    "anio": null
+  },
+  "infancia-21": {
+    "archivo": "infancia/21-disfraz-amarillo-microfono.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "infancia-22": {
+    "archivo": "infancia/22-disfraz-vaquero_2.jpeg",
+    "edad": 2,
+    "anio": null
+  },
+  "infancia-23": {
+    "archivo": "infancia/23-disfraz-espada.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "infancia-24": {
+    "archivo": "infancia/24-disfraz-pirata.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "infancia-25": {
+    "archivo": "infancia/25-disfraz-pirata-fantasma.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "infancia-26": {
+    "archivo": "infancia/26-disfraz-verde_8.jpeg",
+    "edad": 8,
+    "anio": null
+  },
+  "adolescencia-01": {
+    "archivo": "adolescencia/01-bicicleta-bmx.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "adolescencia-02": {
+    "archivo": "adolescencia/02-disfraz-jetpack.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "adolescencia-03": {
+    "archivo": "adolescencia/03-uniforme-sonrisa.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "adolescencia-04": {
+    "archivo": "adolescencia/04-uniforme-tapabocas.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "decisiones-01": {
+    "archivo": "decisiones/01-graduacion.heic",
+    "edad": null,
+    "anio": null
+  },
+  "decisiones-02": {
+    "archivo": "decisiones/02-universidad_18.jpg",
+    "edad": 18,
+    "anio": null
+  },
+  "decisiones-03": {
+    "archivo": "decisiones/03-campus.jpg",
+    "edad": null,
+    "anio": null
+  },
+  "presente-01": {
+    "archivo": "presente/01-columpio-mirador.jpeg",
+    "edad": null,
+    "anio": null
+  },
+  "presente-02": {
+    "archivo": "presente/02-guitarras.heic",
+    "edad": null,
+    "anio": null
+  },
+  "presente-03": {
+    "archivo": "presente/03-con-bebe_21.jpg",
+    "edad": 21,
+    "anio": null
+  },
+  "inventadas-01-concurso": {
+    "archivo": "inventadas/01-concurso.png",
+    "edad": null,
+    "anio": null
+  },
+  "inventadas-02-guitarra-cumpleanos": {
+    "archivo": "inventadas/02-guitarra-cumpleanos.png",
+    "edad": null,
+    "anio": null
+  },
+  "inventadas-03-escenario-colegio": {
+    "archivo": "inventadas/03-escenario-colegio.png",
+    "edad": null,
+    "anio": null
+  },
+  "inventadas-06-grado-toga": {
+    "archivo": "inventadas/06-grado-toga.png",
+    "edad": null,
+    "anio": null
+  },
+  "inventadas-10-pastel-musical-guitarra": {
+    "archivo": "inventadas/10-pastel-musical-guitarra.png",
+    "edad": null,
+    "anio": null
+  },
+  "inventadas-imagendechatgpt13nov2026081855pm": {
+    "archivo": "inventadas/Imagen de ChatGPT 13 nov 2026, 08_18_55 p.m.png",
+    "edad": null,
+    "anio": null
+  },
+  "inventadas-imagendechatgpt13nov2026081910pm": {
+    "archivo": "inventadas/Imagen de ChatGPT 13 nov 2026, 08_19_10 p.m.png",
+    "edad": null,
+    "anio": null
+  },
+  "inventadas-imagendechatgpt13nov2026081923pm": {
+    "archivo": "inventadas/Imagen de ChatGPT 13 nov 2026, 08_19_23 p.m.png",
+    "edad": null,
+    "anio": null
+  },
+  "inventadas-imagendechatgpt17nov2026053951pm": {
+    "archivo": "inventadas/Imagen de ChatGPT 17 nov 2026, 05_39_51 p.m.png",
+    "edad": null,
+    "anio": null
+  },
+  "inventadas-imagendechatgpt17nov2026054132pm": {
+    "archivo": "inventadas/Imagen de ChatGPT 17 nov 2026, 05_41_32 p.m.png",
+    "edad": null,
+    "anio": null
+  }
+}
