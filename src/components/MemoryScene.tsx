@@ -130,7 +130,7 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
             </svg>
             {swapping && (
               <div className="undo" aria-live="polite">
-                <p>{shownImage(m) === m.image ? 'Restaurando la versión de la máquina…' : 'Eliminando lo que no pasó…'}</p>
+                <p>{shownImage(m) === m.image ? 'Возвращаю версию машины…' : 'Стираю то, чего не было…'}</p>
               </div>
             )}
             <PromptGeneration memory={m} reduced={reduced} target={tornRef} />
@@ -151,7 +151,7 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
             />
             </div>
             <figcaption className="sr-only">
-              Imagen ilustrativa generada para representar este recuerdo; no es una fotografía real de tu vida.
+              Иллюстрация, созданная для этого воспоминания; это не настоящая фотография из твоей жизни.
             </figcaption>
           </figure>
           <span className="memory__tape" aria-hidden>
@@ -159,12 +159,12 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
           </span>
           {m.visualState === 'reconocido' && (
             <span className="memory__stamp memory__stamp--ok">
-              <Check size={14} aria-hidden /> Recuerdo reconocido
+              <Check size={14} aria-hidden /> Воспоминание узнано
             </span>
           )}
           {m.visualState === 'incierto' && (
             <span className="memory__stamp memory__stamp--doubt">
-              <HelpCircle size={14} aria-hidden /> Sin confirmar
+              <HelpCircle size={14} aria-hidden /> Не подтверждено
             </span>
           )}
         </div>
@@ -172,7 +172,7 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
 
       <div className="memory__text">
         <p className="memory__meta memory__reveal">
-          <span>Recuerdo {n}</span>
+          <span>Воспоминание {n}</span>
           <span className="memory__date">{dateLabel}</span>
         </p>
         <h3 id={`titulo-${m.id}`} className="memory__title memory__reveal">
@@ -182,7 +182,7 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
         <div className="memory__statement-wrap memory__reveal">
           {m.correction && !editing && (
             <>
-              <p className="memory__yours-label">Tu versión</p>
+              <p className="memory__yours-label">Твоя версия</p>
               <p className="memory__yours">{m.correction}</p>
             </>
           )}
@@ -202,14 +202,14 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
                 maxLength={400}
                 autoFocus
                 onChange={(e) => setDraft(e.target.value)}
-                aria-label="Tu versión de este recuerdo"
+                aria-label="Твоя версия этого воспоминания"
               />
               <div className="memory__tools">
                 <button type="submit" className="draw__tool draw__tool--done">
-                  <Check size={14} aria-hidden /> Guardar
+                  <Check size={14} aria-hidden /> Сохранить
                 </button>
                 <button type="button" className="draw__tool" onClick={() => setEditing(false)}>
-                  Cancelar
+                  Отмена
                 </button>
               </div>
             </form>
@@ -241,16 +241,16 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
                   setEditing(true);
                 }}
               >
-                <Pencil size={14} aria-hidden /> Editar el texto
+                <Pencil size={14} aria-hidden /> Изменить текст
               </button>
               <button type="button" className={`draw__tool ${drawing ? 'is-on' : ''}`} onClick={() => setDrawing((d) => !d)}>
-                <Brush size={14} aria-hidden /> {drawing ? 'Dibujando…' : 'Tiza'}
+                <Brush size={14} aria-hidden /> {drawing ? 'Рисую…' : 'Мел'}
               </button>
             </div>
           )}
         </div>
 
-        <p className="memory__hint memory__reveal">Raya la foto: una <b>✕</b> si no pasó, un <b>✓</b> si pasó. Toca las palabras que no son ciertas para tacharlas.</p>
+        <p className="memory__hint memory__reveal">Рисуй на фото: <b>✕</b> — этого не было, <b>✓</b> — это было. Нажми на неверные слова, чтобы зачеркнуть их.</p>
 
         <div className="memory__reveal">
           <MemoryDecision
@@ -262,17 +262,17 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
 
         <div className="memory__feedback" aria-live="polite">
           {m.evaluation === 'confirmado' && (
-            <p className="feedback feedback--ok">Acertó. Pero no lo recordó: lo adivinó.</p>
+            <p className="feedback feedback--ok">Совпало. Но машина не вспомнила — она угадала.</p>
           )}
           {m.evaluation === 'incierto' && (
-            <p className="feedback feedback--doubt">Si tú dudas, ¿por qué la máquina lo afirmó con tanta seguridad?</p>
+            <p className="feedback feedback--doubt">Если ты сомневаешься, почему машина была так уверена?</p>
           )}
-          {rejected && <p className="feedback feedback--no">Nunca pasó. Y aun así sonaba a tu vida.</p>}
+          {rejected && <p className="feedback feedback--no">Этого не было. И всё же звучало как твоя жизнь.</p>}
         </div>
 
         {m.evaluation !== 'pendiente' && (
           <button type="button" className="link-btn memory__next" onClick={() => scrollToId(nextId, reduced)}>
-            Seguir avanzando en el tiempo <ArrowDown size={14} aria-hidden />
+            Дальше во времени <ArrowDown size={14} aria-hidden />
           </button>
         )}
       </div>

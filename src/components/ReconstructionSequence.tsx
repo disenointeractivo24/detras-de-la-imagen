@@ -5,12 +5,12 @@ import { introLines } from '../lib/narrative';
 import { useExperience } from '../lib/store';
 import { gsap, imgAttrs, tornClip, useGSAP } from '../lib/visual';
 
-const MILESTONES = ['Nacimiento', 'Primeros recuerdos', 'Infancia', 'Adolescencia', 'Decisiones importantes', 'Presente'];
+const MILESTONES = ['Рождение', 'Первые воспоминания', 'Детство', 'Юность', 'Важные решения', 'Настоящее'];
 const MESSAGES = [
-  'Leyendo tus pocos datos…',
-  'Rellenando los huecos con clichés…',
-  'Calculando qué suena verosímil…',
-  'Puliendo una vida que nunca vimos…',
+  'Читаю твои немногие данные…',
+  'Заполняю пробелы клише…',
+  'Вычисляю, что звучит правдоподобно…',
+  'Шлифую жизнь, которую никто не видел…',
 ];
 
 export function ReconstructionSequence() {
@@ -84,7 +84,7 @@ export function ReconstructionSequence() {
     <section ref={root} className="recon" aria-labelledby="recon-titulo">
       <div className="recon__head">
         <h2 id="recon-titulo" className="recon__title">
-          Una vida. Miles de <em>recuerdos.</em>
+          Одна жизнь. Тысячи <em>воспоминаний.</em>
         </h2>
         <span className="recon__rule" aria-hidden />
       </div>
@@ -124,13 +124,13 @@ export function ReconstructionSequence() {
         <span className="recon__pulse" aria-hidden />
         <span>{message}</span>
         <span className="recon__count">
-          {count}/{photos.length} recuerdos
+          {count}/{photos.length} воспоминаний
         </span>
       </div>
 
       {!done && (
         <button type="button" className="recon__skip link-btn" onClick={skip}>
-          <FastForward size={14} aria-hidden /> Saltar animación
+          <FastForward size={14} aria-hidden /> Пропустить анимацию
         </button>
       )}
 
@@ -139,21 +139,21 @@ export function ReconstructionSequence() {
         aria-hidden={!done}
         {...({ inert: done ? undefined : '' } as object)}
       >
-        <p className="recon__ready-title">Tu historia está lista.</p>
+        <p className="recon__ready-title">Твоя история готова.</p>
         {state.demo ? (
           <p className="recon__disclosure">
-            Este es un ejemplo real: las fotografías pertenecen a {state.profile.nombre}, pero los textos los escribió la
-            simulación. Algunas imágenes fueron alteradas con IA. ¿Puedes adivinar cuáles recuerdos son verdaderos?
+            Это реальный пример: фотографии принадлежат {state.profile.nombre}, но тексты написала
+            симуляция. Некоторые изображения изменены ИИ. Сможешь угадать, какие воспоминания настоящие?
           </p>
         ) : (
           <p className="recon__disclosure">
-            Antes de empezar: esta biografía es una simulación. Fue construida con los pocos datos que compartiste y con
-            plantillas narrativas. No consultamos bases de datos, redes sociales ni archivos personales. Las fotografías
-            son ilustrativas.
+            Прежде чем начать: эта биография — симуляция. Она собрана из немногих данных, которыми ты поделился,
+            и повествовательных шаблонов. Мы не обращались к базам данных, соцсетям или личным архивам. Фотографии
+            иллюстративные.
           </p>
         )}
         <button type="button" className="btn btn--solid recon__enter" onClick={enter}>
-          Descubrir mi vida <ArrowRight size={16} aria-hidden />
+          Открыть мою жизнь <ArrowRight size={16} aria-hidden />
         </button>
       </div>
     </section>

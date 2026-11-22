@@ -69,9 +69,17 @@ export function tornClip(seed: number, depth = 2.2, edges: ('top' | 'bottom' | '
   return `polygon(${pts.join(',')})`;
 }
 
+/** Plural ruso: ru(1,'год','года','лет') → «1 год», ru(3,…) → «3 года», ru(11,…) → «11 лет». */
+export function ru(n: number, one: string, few: string, many: string) {
+  const a = Math.abs(n) % 100;
+  const b = a % 10;
+  const w = a > 10 && a < 20 ? many : b === 1 ? one : b >= 2 && b <= 4 ? few : many;
+  return `${n} ${w}`;
+}
+
 export function formatAge(age: number | null) {
-  if (age === null) return 'Edad desconocida';
-  return age === 1 ? '1 año' : `${age} años`;
+  if (age === null) return 'Возраст неизвестен';
+  return ru(age, 'год', 'года', 'лет');
 }
 
 export function scrollToId(id: string, reduced = false) {

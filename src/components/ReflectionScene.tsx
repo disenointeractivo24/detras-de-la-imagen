@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { RotateCcw, BookOpen } from 'lucide-react';
 import { computeStats, plural } from '../lib/narrative';
 import { clearStorage, useExperience } from '../lib/store';
-import { gsap, img, scrollToId, useGSAP } from '../lib/visual';
+import { formatAge, gsap, img, scrollToId, useGSAP } from '../lib/visual';
 import { ConfirmDialog } from './ConfirmDialog';
 
 /** Escena 08: la reflexión final, con resultados calculados a partir de las decisiones reales. */
@@ -66,13 +66,13 @@ export function ReflectionScene() {
 
   const stats: string[] = [
     s.revisados === s.total
-      ? `Exploraste ${plural(s.total, 'recuerdo', 'recuerdos')}.`
-      : `Exploraste ${s.revisados} de ${plural(s.total, 'recuerdo', 'recuerdos')}.`,
+      ? `Ты просмотрел ${plural(s.total, 'воспоминание', 'воспоминания', 'воспоминаний')}.`
+      : `Ты просмотрел ${s.revisados} из ${plural(s.total, 'воспоминания', 'воспоминаний', 'воспоминаний')}.`,
   ];
-  if (s.confirmados) stats.push(`Reconociste ${s.confirmados}.`);
-  if (s.rechazados) stats.push(`Rechazaste ${s.rechazados}.`);
-  if (s.inciertos) stats.push(`Dejaste ${s.inciertos} sin confirmar.`);
-  if (s.pendientes) stats.push(`${s.pendientes === 1 ? 'Uno quedó' : `${s.pendientes} quedaron`} sin revisar.`);
+  if (s.confirmados) stats.push(`Узнал: ${s.confirmados}.`);
+  if (s.rechazados) stats.push(`Отверг: ${s.rechazados}.`);
+  if (s.inciertos) stats.push(`Не подтвердил: ${s.inciertos}.`);
+  if (s.pendientes) stats.push(`Без проверки: ${s.pendientes}.`);
 
   const restart = () => {
     clearStorage();
@@ -93,11 +93,11 @@ export function ReflectionScene() {
 
       <div className="reflect__beat reflect__intro">
         <h2 id="reflect-titulo" className="display">
-          ¿Quién conoce <em>realmente</em> tu historia?
+          Кто <em>на самом деле</em> знает твою историю?
         </h2>
       </div>
 
-      <ul className="reflect__stats reflect__beat" aria-label="Tus resultados">
+      <ul className="reflect__stats reflect__beat" aria-label="Твои результаты">
         {stats.map((t) => (
           <li key={t} className="reflect__stat">
             {t}
@@ -105,97 +105,97 @@ export function ReflectionScene() {
         ))}
       </ul>
 
-      <div className="tally reflect__beat" aria-label="Recuento">
+      <div className="tally reflect__beat" aria-label="Итог">
         <div className="tally__col tally__col--ok">
           <h3 className="tally__head">
-            <span className="tally__num">{hits.length}</span> Acertó
+            <span className="tally__num">{hits.length}</span> Угадал
           </h3>
           <ul>
             {hits.map((m) => (
               <li key={m.id}>
-                <span className="tally__age">{m.approxAge !== null ? `${m.approxAge} años` : ''}</span> {m.title}
+                <span className="tally__age">{m.approxAge !== null ? formatAge(m.approxAge) : ''}</span> {m.title}
               </li>
             ))}
-            {hits.length === 0 && <li className="tally__empty">Nada.</li>}
+            {hits.length === 0 && <li className="tally__empty">Ничего.</li>}
           </ul>
         </div>
         <div className="tally__col tally__col--no">
           <h3 className="tally__head">
-            <span className="tally__num">{misses.length}</span> Falló
+            <span className="tally__num">{misses.length}</span> Ошибся
           </h3>
           <ul>
             {misses.map((m) => (
               <li key={m.id}>
-                <span className="tally__age">{m.approxAge !== null ? `${m.approxAge} años` : ''}</span> {m.title}
-                {m.correction && <span className="tally__fix">Tu versión: «{m.correction}»</span>}
+                <span className="tally__age">{m.approxAge !== null ? formatAge(m.approxAge) : ''}</span> {m.title}
+                {m.correction && <span className="tally__fix">Твоя версия: «{m.correction}»</span>}
               </li>
             ))}
-            {misses.length === 0 && <li className="tally__empty">Nada.</li>}
+            {misses.length === 0 && <li className="tally__empty">Ничего.</li>}
           </ul>
         </div>
         {doubts.length > 0 && (
           <p className="tally__doubt">
-            {doubts.length === 1 ? 'Un recuerdo quedó' : `${doubts.length} recuerdos quedaron`} en duda o sin revisar.
+            Под сомнением или без проверки: {doubts.length}.
           </p>
         )}
       </div>
 
       <div className="reflect__seq">
-        <p className="reflect__beat">Con unos pocos datos, pudimos construir una historia sobre ti.</p>
+        <p className="reflect__beat">Из нескольких данных мы смогли собрать историю о тебе.</p>
         <p className="reflect__beat">
-          {s.confirmados > 0 ? 'Algunas partes pudieron coincidir con tu vida.' : 'Quizá ninguna parte coincidió con tu vida.'}
+          {s.confirmados > 0 ? 'Что-то могло совпасть с твоей жизнью.' : 'Возможно, ничего не совпало с твоей жизнью.'}
         </p>
         <p className="reflect__beat">
           {s.rechazados > 0
-            ? 'Otras nunca sucedieron.'
+            ? 'Что-то никогда не происходило.'
             : s.inciertos > 0
-              ? 'Otras no pudiste confirmarlas.'
-              : 'Y aun así, cada detalle fue una suposición.'}
+              ? 'Что-то ты не смог подтвердить.'
+              : 'И всё же каждая деталь была догадкой.'}
         </p>
       </div>
 
       <div className="reflect__seq reflect__seq--wide">
         <p className="reflect__beat">
-          En el globo de 2050, lo que pudo haber sido se guarda al lado de lo que fue, con la misma nitidez.
+          В глобусе 2050 года то, что могло быть, хранится рядом с тем, что было, — с той же чёткостью.
         </p>
         <p className="reflect__beat reflect__big">
-          Si no distingue una cosa de la otra en tu vida, ¿cómo lo hará con la historia de <em>toda la humanidad?</em>
+          Если он не отличает одно от другого в твоей жизни, как он справится с историей <em>всего человечества?</em>
         </p>
       </div>
 
       <div className="reflect__beat reflect__final">
         <p className="reflect__message">
-          La IA puede contar tu historia, <em>pero no puede recordar tu vida.</em>
+          ИИ может рассказать твою историю, <em>но не может помнить твою жизнь.</em>
         </p>
-        <p className="reflect__support">Antes de aceptar una reconstrucción, pregunta quién la describió y quién la verificó.</p>
-        <div className="rights" aria-label="Tus derechos sobre tu memoria">
-          <p className="eyebrow">Lo que este proyecto propone</p>
+        <p className="reflect__support">Прежде чем принять реконструкцию, спроси, кто её описал и кто проверил.</p>
+        <div className="rights" aria-label="Твои права на твою память">
+          <p className="eyebrow">Что предлагает этот проект</p>
           <ol className="rights__list">
-            <li><strong>Derecho a corregir.</strong> Tu versión pesa más que cualquier estadística.</li>
-            <li><strong>Derecho a dudar.</strong> «No estoy seguro» también es una respuesta válida.</li>
-            <li><strong>Derecho al vacío.</strong> Hay partes de tu vida que nadie necesita completar.</li>
-            <li><strong>Derecho a no ser un estereotipo.</strong> Quien tiene menos datos en la red no merece una historia más inventada.</li>
+            <li><strong>Право исправлять.</strong> Твоя версия весит больше любой статистики.</li>
+            <li><strong>Право сомневаться.</strong> «Не уверен» — тоже ответ.</li>
+            <li><strong>Право на пустоту.</strong> Есть части жизни, которые никому не нужно дополнять.</li>
+            <li><strong>Право не быть стереотипом.</strong> У кого меньше данных в сети, тот не заслуживает более выдуманной истории.</li>
           </ol>
-          <p className="rights__close">La memoria no se reconstruye: <em>se cuenta, y la cuentas tú.</em></p>
+          <p className="rights__close">Память не реконструируют: <em>её рассказывают, и рассказываешь её ты.</em></p>
         </div>
         <div className="reflect__actions">
           <button type="button" className="btn btn--dark" onClick={() => setConfirm(true)}>
-            <RotateCcw size={16} aria-hidden /> Volver a vivir la experiencia
+            <RotateCcw size={16} aria-hidden /> Пройти заново
           </button>
           <button type="button" className="btn btn--outline-dark" onClick={() => scrollToId('biografia', reduced)}>
-            <BookOpen size={16} aria-hidden /> Revisar mi biografía
+            <BookOpen size={16} aria-hidden /> Вернуться к биографии
           </button>
         </div>
         <p className="reflect__credit">
-          Inspirado en el escenario «3D Reconstruction of the Human History» de Earth 2050. Todas las imágenes son ilustrativas.
+          По мотивам сценария «3D-реконструкция истории человечества», Earth 2050, Москва. Все изображения иллюстративные.
         </p>
       </div>
 
       <ConfirmDialog
         open={confirm}
-        title="¿Volver a empezar?"
-        body="Se borrarán tus respuestas, la biografía generada, tus decisiones y tus correcciones guardadas en este navegador."
-        confirmLabel="Sí, empezar de nuevo"
+        title="Начать заново?"
+        body="Твои ответы, биография, решения и правки будут удалены из этого браузера."
+        confirmLabel="Да, начать заново"
         onConfirm={restart}
         onCancel={() => setConfirm(false)}
       />

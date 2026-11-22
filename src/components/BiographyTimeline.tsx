@@ -30,7 +30,7 @@ export function BiographyTimeline() {
     { scope: root, dependencies: [reduced] },
   );
 
-  const titleWords = 'Así creemos que fue tu historia.'.split(' ');
+  const titleWords = 'Такой мы видим твою историю.'.split(' ');
   let cursor = 0;
   const firstOf = (stageId: string) => memories.find((m) => m.stage === stageId);
 
@@ -42,7 +42,7 @@ export function BiographyTimeline() {
             {titleWords.map((w, i) => (
               <Fragment key={i}>
                 <span className="w-wrap">
-                  <span className={`w ${w === 'historia.' ? 'w--italic' : ''}`}>{w}</span>
+                  <span className={`w ${w === 'историю.' ? 'w--italic' : ''}`}>{w}</span>
                 </span>{' '}
               </Fragment>
             ))}
@@ -52,14 +52,14 @@ export function BiographyTimeline() {
             <span className="bio-open__shade" />
           </figure>
           <div className="bio-open__lines">
-            <p className="bio-open__line bio-open__source">A partir de lo que nos contaste</p>
+            <p className="bio-open__line bio-open__source">По тому, что ты нам рассказал</p>
             {lines.map((l) => (
               <p key={l} className="bio-open__line bio-open__statement">
                 {l}
               </p>
             ))}
             <p className="bio-open__line bio-open__instr">
-              Desliza. Si algo no pasó, táchalo tú.
+              Листай. Если чего-то не было — зачеркни.
             </p>
           </div>
         </div>

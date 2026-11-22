@@ -12,10 +12,10 @@ interface Props {
 }
 
 export const EVAL_LABEL: Record<Memory['evaluation'], string> = {
-  pendiente: 'Sin revisar',
-  confirmado: 'Reconocido',
-  rechazado: 'Nunca pasó',
-  incierto: 'Sin confirmar',
+  pendiente: 'Не проверено',
+  confirmado: 'Узнано',
+  rechazado: 'Не было',
+  incierto: 'Не подтверждено',
 };
 
 /** Una página del álbum: la misma pieza sirve para la historia generada y para la tuya. */
@@ -47,7 +47,7 @@ export function MemoryThumb({ memory: m, index, version, compact }: Props) {
       {!compact && (
         <p className="thumb__text">
           {version === 'tuya' && state === 'vacio'
-            ? 'Este recuerdo no pertenece a tu historia.'
+            ? 'Это воспоминание не из твоей истории.'
             : version === 'tuya' && state === 'corregido'
               ? `«${m.correction}»`
               : m.statement}

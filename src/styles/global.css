@@ -3143,9 +3143,9 @@ html.reduced .memory__redx path,
   --gray: #7d8288;
   --paper-dark: #cfd2d5;
   --accent: #e0291b;
-  --display: 'Michroma', 'Eurostile', sans-serif;
-  --serif: 'Space Grotesk', system-ui, sans-serif;
-  --sans: 'Space Grotesk', system-ui, sans-serif;
+  --display: 'Unbounded', 'Eurostile', sans-serif;
+  --serif: 'Onest', system-ui, sans-serif;
+  --sans: 'Onest', system-ui, sans-serif;
   --hand: 'JetBrains Mono', ui-monospace, monospace;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
 }

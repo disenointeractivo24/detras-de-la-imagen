@@ -1,6 +1,6 @@
 import type { Memory } from './types';
 
-const norm = (w: string) => w.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
+const norm = (w: string) => w.toLowerCase().replace(/ё/g, 'е').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\p{L}\p{N}]/gu, '');
 
 /** Palabras tachadas, normalizadas. */
 function struckWords(m: Memory) {

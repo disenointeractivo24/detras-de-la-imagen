@@ -21,8 +21,8 @@ let lastUsed: HTMLCanvasElement | null = null;
 const W = 800;
 const H = 600;
 const COLORS = [
-  { id: 'rojo', label: 'Tiza roja', c: '224,41,27' },
-  { id: 'blanco', label: 'Tiza blanca', c: '242,240,235' },
+  { id: 'rojo', label: 'Красный мел', c: '224,41,27' },
+  { id: 'blanco', label: 'Белый мел', c: '242,240,235' },
 ];
 
 /** Lienzo para rayar la foto con trazos de tiza. */
@@ -154,21 +154,21 @@ export function DrawLayer({ initial, active, onSave, onClose, onMark, onUnmark, 
             </button>
           ))}
           <button type="button" className="draw__tool" onClick={undo}>
-            <Undo2 size={14} aria-hidden /> Deshacer
+            <Undo2 size={14} aria-hidden /> Отменить
           </button>
           <button type="button" className="draw__tool" onClick={() => {
               canvas.current!.getContext('2d')!.clearRect(0, 0, W, H);
               strokes.current = [];
               onSave('');
             }}>
-            <Eraser size={14} aria-hidden /> Borrar
+            <Eraser size={14} aria-hidden /> Стереть
           </button>
           <button
             type="button"
             className="draw__tool draw__tool--done"
             onClick={onClose}
           >
-            <Check size={14} aria-hidden /> Listo
+            <Check size={14} aria-hidden /> Готово
           </button>
         </div>
       )}

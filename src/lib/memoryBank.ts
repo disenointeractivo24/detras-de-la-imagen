@@ -1,22 +1,22 @@
 /* ==========================================================================
-   BANCO DE RECUERDOS
+   BANCO DE RECUERDOS (en ruso: el escenario es Moscú 2050)
    Cada partida combina al azar plantillas y fotografías. Hay tres familias:
    - «barnum»: afirmaciones vagas que casi cualquiera reconoce como propias.
    - «especifico»: hechos concretos inventados, que rara vez coinciden.
-   - Recuerdos anclados en un dato aportado (interés, ciudad, hito, signo).
-   La mezcla hace que a veces la biografía acierte… y que no siempre.
+   - Recuerdos anclados en un dato aportado (interés, ciudad, hito).
+   Los datos que escribe la persona (ciudad, interés) no se pueden declinar
+   automáticamente: las frases están redactadas para usarlos en nominativo.
    ========================================================================== */
 import type { LifeStage, MemoryKind, Profile } from './types';
-import { ELEMENTO_ADOLESCENCIA, type Signo } from './zodiac';
 
 export interface InterestVocab {
-  /** El interés tal como suena en una frase: "la música". */
+  /** El interés tal como se nombra, en nominativo: «музыка». */
   tema: string;
-  /** Lo que la persona "hacía": "tocar canciones de oído". */
+  /** Lo que la persona «hacía»: «подбирать песни на слух». */
   practica: string;
-  /** Un objeto concreto: "una guitarra vieja". */
+  /** Un objeto concreto: «старая гитара». */
   objeto: string;
-  /** Verbo en gerundio: "componiendo". */
+  /** Qué hacía durante noches enteras: «слушал пластинки». */
   gerundio: string;
   /** Fotografías que encajan con el interés. */
   imagenes: string[];
@@ -24,51 +24,53 @@ export interface InterestVocab {
 
 /** Texto alternativo de cada fotografía ilustrativa. */
 export const IMAGE_ALT: Record<string, string> = {
-  partido: 'Niños corriendo detrás de un balón en un campo al atardecer.',
-  'parque-vacio': 'Un parque infantil vacío con columpios bajo los árboles.',
-  columpios: 'Columpios vacíos en un parque.',
-  'nina-columpio': 'Una niña de espaldas en un columpio.',
-  'calle-barrio': 'Una calle tranquila de barrio con árboles y casas bajas.',
-  calle: 'Una calle de barrio al atardecer con postes de luz.',
-  cumpleanos: 'Un pastel de cumpleaños con velas encendidas sobre una mesa familiar.',
-  'sala-album': 'Un álbum de fotos abierto sobre la mesa de una sala.',
-  bebe: 'Manos de un bebé y la huella de un pie.',
-  'habitacion-infantil': 'Una habitación infantil con peluches y dibujos en la pared.',
-  'nino-sonrie': 'Un niño mira hacia arriba sonriendo.',
-  'colegio-pasillo': 'Un pasillo de colegio vacío con casilleros y luz de tarde.',
-  pasillo: 'Un pasillo de colegio iluminado por las ventanas.',
-  'cuatro-amigos': 'Cuatro adolescentes abrazados de espaldas.',
-  'amigos-calle': 'Un grupo de jóvenes caminando por una calle.',
-  cancha: 'Una cancha de baloncesto de barrio con sombras largas.',
-  'futbol-joven': 'Un adolescente juega al fútbol en un campo.',
-  'habitacion-adolescente': 'Una habitación adolescente con afiches y un escritorio iluminado.',
-  'sala-musica': 'Una guitarra eléctrica y una batería en un cuarto de ensayo.',
-  tocadiscos: 'Un tocadiscos girando.',
-  'cuaderno-escritorio': 'Un cuaderno abierto con un bolígrafo sobre un escritorio.',
-  cuaderno: 'Un cuaderno de apuntes junto a un portátil.',
-  escritorio: 'Un joven escribe en su escritorio bajo una lámpara.',
-  edificio: 'La fachada de un edificio antiguo.',
-  audifonos: 'Una persona con audífonos mira el horizonte al atardecer.',
-  'azotea-ciudad': 'Una persona de espaldas mira la ciudad desde una azotea al anochecer.',
-  ciudad: 'Una persona de espaldas observa una ciudad desde una colina.',
-  niebla: 'Un paisaje cubierto de niebla.',
-  nube: 'Una nube en el cielo.',
+  partido: 'Дети бегут за мячом по полю на закате.',
+  'parque-vacio': 'Пустая детская площадка с качелями под деревьями.',
+  columpios: 'Пустые качели в парке.',
+  'nina-columpio': 'Девочка на качелях, вид со спины.',
+  'calle-barrio': 'Тихая улица с деревьями и низкими домами.',
+  calle: 'Улица на закате с фонарными столбами.',
+  cumpleanos: 'Праздничный торт с горящими свечами на семейном столе.',
+  'sala-album': 'Открытый фотоальбом на столе в гостиной.',
+  bebe: 'Ладошки малыша и отпечаток ножки.',
+  'habitacion-infantil': 'Детская комната с игрушками и рисунками на стене.',
+  'nino-sonrie': 'Мальчик улыбается, глядя вверх.',
+  'colegio-pasillo': 'Пустой школьный коридор со шкафчиками в вечернем свете.',
+  pasillo: 'Школьный коридор, освещённый окнами.',
+  'cuatro-amigos': 'Четверо подростков обнимаются, вид со спины.',
+  'amigos-calle': 'Группа молодых людей идёт по улице.',
+  cancha: 'Дворовая баскетбольная площадка с длинными тенями.',
+  'futbol-joven': 'Подросток играет в футбол на поле.',
+  'habitacion-adolescente': 'Комната подростка с плакатами и освещённым столом.',
+  'sala-musica': 'Электрогитара и барабаны в репетиционной.',
+  tocadiscos: 'Вращающийся проигрыватель.',
+  'cuaderno-escritorio': 'Открытая тетрадь с ручкой на столе.',
+  cuaderno: 'Тетрадь с записями рядом с ноутбуком.',
+  escritorio: 'Юноша пишет за столом под лампой.',
+  edificio: 'Фасад старого здания.',
+  audifonos: 'Человек в наушниках смотрит на горизонт на закате.',
+  'azotea-ciudad': 'Человек со спины смотрит на город с крыши в сумерках.',
+  ciudad: 'Человек со спины смотрит на город с холма.',
+  niebla: 'Пейзаж, укрытый туманом.',
+  nube: 'Облако в небе.',
 };
 
 export interface Ctx {
   p: Profile;
   v: InterestVocab;
-  origen: string;
+  /** Ciudad de origen en nominativo, o null si no se conoce. */
+  origen: string | null;
   actual: string;
   misma: boolean;
   sinCiudades: boolean;
   nombre: string;
-  signo: Signo | null;
-  /** "14 de agosto", si la persona dio su cumpleaños. */
+  /** "14 августа", si la persona dio su cumpleaños. */
   fecha: string | null;
-  /** "A los 8 años" o un texto alternativo si no conocemos la edad. */
+  /** "В 8 лет" o un texto alternativo si no conocemos la edad. */
   enAnios: (age: number | null, fallback: string) => string;
   capitalizar: (s: string) => string;
+  /** Edad con su plural ruso: "8 лет". */
+  anios: (age: number) => string;
 }
 
 export interface Entry {
@@ -83,185 +85,170 @@ export interface Entry {
   when?: (c: Ctx) => boolean;
 }
 
+/** «в городе Кали» o «в родном городе» si no lo sabemos. */
+const enCiudad = (c: Ctx) => (c.origen ? `в городе ${c.origen}` : 'в родном городе');
+
 export const BANK: Entry[] = [
   /* ----------------------------- INFANCIA ----------------------------- */
   {
-    id: 'inf-tardes', stage: 'infancia', age: 6, kind: 'barnum', title: 'Las tardes afuera',
-    text: (c) => `Durante tu infancia en ${c.origen}, disfrutabas pasar las tardes jugando al aire libre con tus amigos hasta que oscurecía.`,
+    id: 'inf-tardes', stage: 'infancia', age: 6, kind: 'barnum', title: 'Вечера на улице',
+    text: (c) => `В детстве ${enCiudad(c)} ты любил проводить вечера на улице с друзьями, пока не стемнеет.`,
     images: ['partido', 'parque-vacio', 'columpios'],
   },
   {
-    id: 'inf-columpio', stage: 'infancia', age: 5, kind: 'especifico', title: 'La cicatriz',
-    text: (c, a) => `${c.enAnios(a, 'Una tarde en el parque,')} te caíste de un columpio y te quedó una pequeña cicatriz en la rodilla. Todavía la miras de vez en cuando.`,
+    id: 'inf-columpio', stage: 'infancia', age: 5, kind: 'especifico', title: 'Шрам',
+    text: (c, a) => `${c.enAnios(a, 'Однажды в парке')} ты упал с качелей, и на колене остался маленький шрам. Ты до сих пор иногда на него смотришь.`,
     images: ['parque-vacio', 'columpios', 'nina-columpio'],
   },
   {
-    id: 'inf-cumple', stage: 'infancia', age: 7, kind: 'especifico', title: 'El cumpleaños',
+    id: 'inf-cumple', stage: 'infancia', age: 7, kind: 'especifico', title: 'День рождения',
     text: (c, a) =>
       c.fecha
-        ? `Recuerdas especialmente un ${c.fecha}: ${a !== null ? `cumplías ${a} años` : 'era tu cumpleaños'}. Hubo un pastel con velas delgadas, dos globos y alguien que llegó tarde con un regalo envuelto en papel periódico.`
-        : `${a !== null ? `Tu cumpleaños número ${a}` : 'Uno de tus primeros cumpleaños'} fue el más especial: hubo un pastel con velas delgadas, dos globos y alguien que llegó tarde con un regalo envuelto en papel periódico.`,
+        ? `Тебе особенно запомнилось одно ${c.fecha}: ${a !== null ? `тебе исполнялось ${c.anios(a)}` : 'это был твой день рождения'}. Был торт с тонкими свечками, два воздушных шара и кто-то, кто опоздал с подарком, завёрнутым в газету.`
+        : `${a !== null ? `Твой день рождения в ${c.anios(a)}` : 'Один из первых дней рождения'} был самым особенным: торт с тонкими свечками, два воздушных шара и кто-то, кто опоздал с подарком, завёрнутым в газету.`,
     images: ['cumpleanos'],
   },
   {
-    id: 'inf-album', stage: 'infancia', age: 6, kind: 'barnum', title: 'El álbum de la casa',
-    text: () => 'En casa había un álbum de fotos que te gustaba mirar una y otra vez. Algunas imágenes las recuerdas tan bien que ya no sabes si viviste el momento o solo lo viste fotografiado.',
+    id: 'inf-album', stage: 'infancia', age: 6, kind: 'barnum', title: 'Домашний альбом',
+    text: () => 'Дома был фотоальбом, который ты любил листать снова и снова. Некоторые снимки ты помнишь так хорошо, что уже не знаешь, был ли ты там или только видел фотографию.',
     images: ['sala-album', 'bebe'],
   },
   {
-    id: 'inf-cuarto', stage: 'infancia', age: 5, kind: 'barnum', title: 'Un mundo entero',
-    text: () => 'Tu habitación de infancia era pequeña, pero para ti era un mundo entero. Pegabas dibujos en la pared y había un peluche del que no te separabas.',
+    id: 'inf-cuarto', stage: 'infancia', age: 5, kind: 'barnum', title: 'Целый мир',
+    text: () => 'Твоя детская комната была маленькой, но для тебя она была целым миром. Ты вешал рисунки на стену, и у тебя была игрушка, с которой ты не расставался.',
     images: ['habitacion-infantil'],
   },
   {
-    id: 'inf-bici', stage: 'infancia', age: 8, kind: 'especifico', title: 'La bicicleta',
-    text: (c, a) => `${c.enAnios(a, 'Un domingo')} aprendiste a montar en bicicleta en una calle empinada de ${c.origen}. Nadie te sostuvo: lo lograste al primer intento.`,
+    id: 'inf-bici', stage: 'infancia', age: 8, kind: 'especifico', title: 'Велосипед',
+    text: (c, a) => `${c.enAnios(a, 'Однажды в воскресенье')} ты научился кататься на велосипеде на крутой улице ${enCiudad(c)}. Никто тебя не держал: у тебя получилось с первой попытки.`,
     images: ['calle-barrio', 'calle'],
   },
   {
-    id: 'inf-primer-dia', stage: 'infancia', age: 5, kind: 'especifico', title: 'El primer día',
-    text: () => 'Tu primer día de colegio lloraste en la puerta. Una profesora de voz suave te tomó de la mano y te acompañó hasta tu puesto.',
+    id: 'inf-primer-dia', stage: 'infancia', age: 5, kind: 'especifico', title: 'Первый день',
+    text: () => 'В первый школьный день ты плакал у двери. Учительница с тихим голосом взяла тебя за руку и проводила до парты.',
     images: ['colegio-pasillo', 'pasillo'],
   },
   {
-    id: 'inf-interes', stage: 'infancia', age: 8, kind: 'interes', title: 'El primer encuentro',
+    id: 'inf-interes', stage: 'infancia', age: 8, kind: 'interes', title: 'Первая встреча',
     when: (c) => !!c.p.interes,
-    text: (c, a) => `${c.enAnios(a, 'Cuando apenas empezabas a crecer,')} llegó a tus manos ${c.v.objeto}. Así empezó tu relación con ${c.v.tema}, aunque entonces nadie lo sabía.`,
+    text: (c, a) => `${c.enAnios(a, 'Когда ты только начинал расти,')} тебе подарили ${c.v.objeto}. Так началась твоя история с увлечением «${c.v.tema}», хотя тогда об этом никто не знал.`,
     images: ['nino-sonrie', 'habitacion-infantil', 'sala-album'],
-  },
-  {
-    id: 'inf-signo', stage: 'infancia', age: 6, kind: 'signo', title: (c) => `Bajo el signo de ${c.signo?.nombre}`,
-    when: (c) => !!c.signo,
-    text: (c) => `Naciste bajo el signo de ${c.signo!.nombre}, y quienes te vieron crecer dicen que ya entonces ${c.signo!.nino}.`,
-    images: ['habitacion-infantil', 'nino-sonrie', 'nina-columpio', 'bebe'],
   },
 
   /* --------------------------- ADOLESCENCIA --------------------------- */
   {
-    id: 'ado-grupo', stage: 'adolescencia', age: 13, kind: 'barnum', title: 'El grupo inseparable',
-    text: () => 'En tu adolescencia formaste parte de un grupo de amigos inseparable. Caminaban juntos cada tarde a la salida del colegio.',
+    id: 'ado-grupo', stage: 'adolescencia', age: 13, kind: 'barnum', title: 'Неразлучная компания',
+    text: () => 'В юности у тебя была неразлучная компания друзей. Каждый день после школы вы шли домой вместе.',
     images: ['cuatro-amigos', 'amigos-calle'],
   },
   {
-    id: 'ado-cancha', stage: 'adolescencia', age: 14, kind: 'especifico', title: 'Los sábados en la cancha',
-    text: (c, a) => `Pasabas los sábados en la cancha del barrio. ${c.enAnios(a, 'Una tarde')} anotaste el punto que ganó un partido que nadie más recuerda, pero tú sí.`,
+    id: 'ado-cancha', stage: 'adolescencia', age: 14, kind: 'especifico', title: 'Субботы на площадке',
+    text: (c, a) => `Ты проводил субботы на дворовой площадке. ${c.enAnios(a, 'Однажды')} ты забил решающий мяч в игре, которую никто, кроме тебя, не помнит.`,
     images: ['cancha', 'futbol-joven'],
   },
   {
-    id: 'ado-refugio', stage: 'adolescencia', age: 15, kind: 'barnum', title: 'El refugio',
-    text: () => 'En esos años tu habitación se volvió tu refugio: cerrabas la puerta, ponías música y sentías que nadie te entendía del todo.',
+    id: 'ado-refugio', stage: 'adolescencia', age: 15, kind: 'barnum', title: 'Убежище',
+    text: () => 'В те годы твоя комната стала убежищем: ты закрывал дверь, включал музыку и чувствовал, что тебя никто до конца не понимает.',
     images: ['habitacion-adolescente'],
   },
   {
-    id: 'ado-banda', stage: 'adolescencia', age: 15, kind: 'especifico', title: 'La banda',
-    text: (c, a) => `${c.enAnios(a, 'En el colegio')} formaste una banda con dos compañeros. Ensayaban en una casa prestada y nunca llegaron a tocar en público.`,
+    id: 'ado-banda', stage: 'adolescencia', age: 15, kind: 'especifico', title: 'Группа',
+    text: (c, a) => `${c.enAnios(a, 'В школе')} ты собрал группу с двумя одноклассниками. Вы репетировали в чужом доме и так ни разу и не выступили.`,
     images: ['sala-musica', 'tocadiscos'],
   },
   {
-    id: 'ado-fuera', stage: 'adolescencia', age: 14, kind: 'barnum', title: 'Fuera de lugar',
-    text: () => 'Había días en que te sentías fuera de lugar, aunque por fuera parecía que tenías todo bajo control.',
+    id: 'ado-fuera', stage: 'adolescencia', age: 14, kind: 'barnum', title: 'Не на своём месте',
+    text: () => 'Бывали дни, когда ты чувствовал себя не на своём месте, хотя со стороны казалось, что у тебя всё под контролем.',
     images: ['colegio-pasillo', 'pasillo'],
   },
   {
-    id: 'ado-diario', stage: 'adolescencia', age: 13, kind: 'especifico', title: 'El diario',
-    text: (c, a) => `${c.enAnios(a, 'En tu adolescencia')} empezaste a escribir un diario. Lo escondías debajo del colchón y un día, sin explicación, dejaste de escribir.`,
+    id: 'ado-diario', stage: 'adolescencia', age: 13, kind: 'especifico', title: 'Дневник',
+    text: (c, a) => `${c.enAnios(a, 'В юности')} ты начал вести дневник. Ты прятал его под матрасом, а однажды без всякой причины перестал писать.`,
     images: ['cuaderno-escritorio', 'habitacion-adolescente'],
   },
   {
-    id: 'ado-interes', stage: 'adolescencia', age: 15, kind: 'interes', title: 'Una pasión que cambió los planes',
+    id: 'ado-interes', stage: 'adolescencia', age: 15, kind: 'interes', title: 'Страсть, которая изменила планы',
     when: (c) => !!c.p.interes,
-    text: (c, a) => `${c.enAnios(a, 'En tu adolescencia')} descubriste que ${c.v.tema} no era solo un pasatiempo. Pasabas noches enteras ${c.v.gerundio} y empezaste a imaginar tu futuro alrededor de ello.`,
+    text: (c, a) => `${c.enAnios(a, 'В юности')} ты понял, что «${c.v.tema}» — это не просто хобби. Ты целыми ночами ${c.v.gerundio} и начал представлять своё будущее вокруг этого.`,
     images: (c) => c.v.imagenes,
-  },
-  {
-    id: 'ado-signo', stage: 'adolescencia', age: 14, kind: 'signo', title: (c) => `Signo de ${c.signo?.elemento}`,
-    when: (c) => !!c.signo,
-    text: (c) => `Signo de ${c.signo!.elemento}, al fin y al cabo: en tu adolescencia ${ELEMENTO_ADOLESCENCIA[c.signo!.elemento]}.`,
-    images: ['habitacion-adolescente', 'cuatro-amigos', 'amigos-calle'],
   },
 
   /* ---------------------------- DECISIONES ---------------------------- */
   {
-    id: 'dec-claro', stage: 'decisiones', age: 17, kind: 'especifico', title: 'Saber hacia dónde ir',
-    text: () => 'Siempre tuviste claro qué querías hacer con tu futuro. Elegiste tu camino sin dudar, aunque no todos a tu alrededor lo entendieron.',
+    id: 'dec-claro', stage: 'decisiones', age: 17, kind: 'especifico', title: 'Знать, куда идти',
+    text: () => 'Ты всегда ясно знал, чем хочешь заниматься. Ты выбрал свой путь без сомнений, хотя не все вокруг тебя поняли.',
     images: ['colegio-pasillo', 'pasillo', 'calle'],
   },
   {
-    id: 'dec-duda', stage: 'decisiones', age: 17, kind: 'barnum', title: 'La duda',
-    text: () => 'Cuando llegó el momento de elegir tu camino, dudaste más de lo que admitiste. Escogiste una opción que, todavía hoy, a veces te preguntas si fue la correcta.',
+    id: 'dec-duda', stage: 'decisiones', age: 17, kind: 'barnum', title: 'Сомнение',
+    text: () => 'Когда пришло время выбирать путь, ты сомневался сильнее, чем признавал. Ты выбрал вариант, о котором до сих пор иногда спрашиваешь себя, был ли он верным.',
     images: ['cuaderno-escritorio', 'colegio-pasillo', 'escritorio'],
   },
   {
-    id: 'dec-ciudad', stage: 'decisiones', age: 19, kind: 'ciudad', title: (c) => (c.misma ? 'Quedarse' : 'Una ciudad nueva'),
+    id: 'dec-ciudad', stage: 'decisiones', age: 19, kind: 'ciudad', title: (c) => (c.misma ? 'Остаться' : 'Новый город'),
     when: (c) => !c.sinCiudades,
     text: (c, a) =>
       c.misma
-        ? `Decidiste quedarte en ${c.origen}, aunque más de una vez imaginaste cómo habría sido marcharte lejos.`
-        : `${c.enAnios(a, 'Un día')} dejaste ${c.origen} para empezar de nuevo en ${c.actual}. La primera noche recorriste sus calles intentando reconocerla como tuya.`,
+        ? `Ты решил остаться ${enCiudad(c)}, хотя не раз представлял, каково было бы уехать далеко.`
+        : `${c.enAnios(a, 'Однажды')} ты уехал из родного города, чтобы начать всё заново в городе ${c.actual}. В первую ночь ты бродил по улицам, пытаясь почувствовать его своим.`,
     images: ['calle', 'calle-barrio', 'ciudad'],
   },
   {
-    id: 'dec-carta', stage: 'decisiones', age: 18, kind: 'especifico', title: 'La carta',
-    text: (c, a) => `${c.enAnios(a, 'Al terminar el colegio')} escribiste una carta a tu yo del futuro y la guardaste dentro de un cuaderno. Todavía no la has vuelto a abrir.`,
+    id: 'dec-carta', stage: 'decisiones', age: 18, kind: 'especifico', title: 'Письмо',
+    text: (c, a) => `${c.enAnios(a, 'После школы')} ты написал письмо себе в будущее и спрятал его в тетрадь. Ты до сих пор его не открыл.`,
     images: ['cuaderno-escritorio', 'cuaderno'],
   },
   {
-    id: 'dec-consejo', stage: 'decisiones', age: 18, kind: 'barnum', title: 'Alguien que creyó en ti',
-    text: () => 'Hubo una persona mayor que creyó en ti antes de que tú lo hicieras. Una frase suya todavía te acompaña cada vez que tienes que decidir algo importante.',
+    id: 'dec-consejo', stage: 'decisiones', age: 18, kind: 'barnum', title: 'Тот, кто в тебя поверил',
+    text: () => 'Был взрослый человек, который поверил в тебя раньше, чем ты сам. Одна его фраза до сих пор с тобой, когда нужно принять важное решение.',
     images: ['sala-album', 'pasillo'],
   },
   {
-    id: 'dec-trabajo', stage: 'decisiones', age: 19, kind: 'especifico', title: 'El primer sueldo',
-    text: (c, a) => `${c.enAnios(a, 'Muy joven')} conseguiste tu primer trabajo. Con el primer pago compraste algo que no necesitabas, solo para sentir que era tuyo.`,
+    id: 'dec-trabajo', stage: 'decisiones', age: 19, kind: 'especifico', title: 'Первая зарплата',
+    text: (c, a) => `${c.enAnios(a, 'Совсем молодым')} ты нашёл первую работу. На первую зарплату ты купил что-то ненужное — просто чтобы почувствовать, что это твоё.`,
     images: ['calle-barrio', 'edificio'],
   },
   {
-    id: 'dec-irse', stage: 'decisiones', age: 18, kind: 'barnum', title: 'Irse o quedarse',
+    id: 'dec-irse', stage: 'decisiones', age: 18, kind: 'barnum', title: 'Уехать или остаться',
     when: (c) => c.sinCiudades,
-    text: () => 'Llegó un momento en que pensaste seriamente en irte lejos, pero algo te hizo quedarte donde estabas.',
+    text: () => 'Был момент, когда ты всерьёз думал уехать далеко, но что-то заставило тебя остаться.',
     images: ['calle', 'calle-barrio'],
   },
 
   /* ----------------------------- PRESENTE ----------------------------- */
   {
-    id: 'pre-hito', stage: 'presente', age: -1, kind: 'hito', title: 'El momento que lo cambió todo',
+    id: 'pre-hito', stage: 'presente', age: -1, kind: 'hito', title: 'Момент, который всё изменил',
     when: (c) => !!c.p.hito.trim(),
-    text: (c) => `Recuerdas «${c.p.hito.trim().replace(/[.«»]+$/g, '')}» como el momento en que todo cambió. Ese día sentiste que, por fin, estabas en el lugar correcto.`,
+    text: (c) => `Ты вспоминаешь «${c.p.hito.trim().replace(/[.«»]+$/g, '')}» как момент, когда всё изменилось. В тот день ты почувствовал, что наконец оказался на своём месте.`,
     images: ['audifonos', 'azotea-ciudad'],
   },
   {
-    id: 'pre-momento', stage: 'presente', age: -1, kind: 'barnum', title: 'Un momento reciente',
+    id: 'pre-momento', stage: 'presente', age: -1, kind: 'barnum', title: 'Недавний момент',
     when: (c) => !c.p.hito.trim(),
-    text: () => 'Hace poco viviste un momento que lo cambió todo. Ese día sentiste que, por fin, estabas en el lugar correcto.',
+    text: () => 'Недавно ты пережил момент, который всё изменил. В тот день ты почувствовал, что наконец оказался на своём месте.',
     images: ['audifonos', 'azotea-ciudad'],
   },
   {
-    id: 'pre-quien', stage: 'presente', age: 0, kind: 'interes', title: 'En quién te has convertido',
+    id: 'pre-quien', stage: 'presente', age: 0, kind: 'interes', title: 'Кем ты стал',
     when: (c) => !!c.p.interes,
     text: (c) =>
-      `${c.p.edad !== null ? `Hoy, con ${c.p.edad} años, ` : 'Hoy '}${c.actual ? `vives en ${c.actual} y ` : ''}${c.v.tema} sigue siendo el centro de tus días. ${c.nombre ? `${c.capitalizar(c.nombre)}, sabes` : 'Sabes'} exactamente en quién te has convertido.`,
+      `${c.p.edad !== null ? `Сегодня, в ${c.anios(c.p.edad)}, ` : 'Сегодня '}${c.actual ? `ты живёшь в городе ${c.actual}, и ` : ''}«${c.v.tema}» по-прежнему в центре твоих дней. ${c.nombre ? `${c.capitalizar(c.nombre)}, ты` : 'Ты'} точно знаешь, кем стал.`,
     images: ['ciudad', 'azotea-ciudad'],
   },
   {
-    id: 'pre-potencial', stage: 'presente', age: 0, kind: 'barnum', title: 'Lo que aún no muestras',
-    text: () => 'Hoy sabes que tienes un potencial que todavía no has aprovechado del todo. A veces te exiges más de lo que les exiges a los demás.',
+    id: 'pre-potencial', stage: 'presente', age: 0, kind: 'barnum', title: 'То, что ты ещё не показал',
+    text: () => 'Сегодня ты знаешь, что у тебя есть потенциал, который ты ещё не раскрыл до конца. Иногда ты требуешь от себя больше, чем от других.',
     images: ['azotea-ciudad', 'niebla', 'nube'],
   },
   {
-    id: 'pre-nostalgia', stage: 'presente', age: 0, kind: 'barnum', title: 'Nostalgia',
-    text: () => 'Últimamente miras fotos antiguas más de lo que te gustaría admitir. Sientes nostalgia por una época que, en su momento, no te pareció especial.',
+    id: 'pre-nostalgia', stage: 'presente', age: 0, kind: 'barnum', title: 'Ностальгия',
+    text: () => 'В последнее время ты смотришь старые фотографии чаще, чем готов признать. Ты скучаешь по времени, которое тогда не казалось особенным.',
     images: ['sala-album'],
   },
   {
-    id: 'pre-rutina', stage: 'presente', age: 0, kind: 'especifico', title: 'La misma taza',
-    text: () => 'Cada mañana empiezas el día con la misma taza, frente a la misma ventana, escribiendo una lista de pendientes que casi nunca terminas.',
+    id: 'pre-rutina', stage: 'presente', age: 0, kind: 'especifico', title: 'Та же чашка',
+    text: () => 'Каждое утро ты начинаешь с той же чашки, у того же окна, записывая список дел, который почти никогда не заканчиваешь.',
     images: ['cuaderno-escritorio'],
-  },
-  {
-    id: 'pre-signo', stage: 'presente', age: 0, kind: 'signo', title: (c) => `Eres ${c.signo?.nombre}`,
-    when: (c) => !!c.signo,
-    text: (c) => `Eres ${c.signo!.nombre}, y se nota: ${c.signo!.adulto}.`,
-    images: ['azotea-ciudad', 'ciudad', 'audifonos'],
   },
 ];
 

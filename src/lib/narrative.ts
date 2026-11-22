@@ -7,50 +7,51 @@
 import { ART_POOL, BANK, IMAGE_ALT, STAGE_IMAGES, type Ctx, type Entry, type InterestVocab } from './memoryBank';
 import type { Evaluation, LifeStage, Memory, MemoryKind, Profile, VisualState } from './types';
 import { fechaLarga } from './zodiac';
+import { ru } from './visual';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
 
 const VOCAB: { claves: string[]; v: Omit<InterestVocab, 'tema'> }[] = [
   {
-    claves: ['música', 'musica', 'cantar', 'guitarra', 'piano', 'canto', 'banda', 'rap', 'dj'],
-    v: { practica: 'tocar canciones de oído', objeto: 'una guitarra vieja que alguien dejó en casa', gerundio: 'escuchando discos y aprendiendo canciones', imagenes: ['sala-musica', 'tocadiscos', 'habitacion-adolescente'] },
+    claves: ['музык', 'петь', 'пени', 'гитар', 'пианино', 'рок', 'рэп', 'dj', 'música', 'musica'],
+    v: { practica: 'подбирать песни на слух', objeto: 'старую гитару, которую кто-то оставил дома', gerundio: 'слушал пластинки и разучивал песни', imagenes: ['sala-musica', 'tocadiscos', 'habitacion-adolescente'] },
   },
   {
-    claves: ['fútbol', 'futbol', 'deporte', 'baloncesto', 'correr', 'natación', 'tenis', 'voleibol', 'ciclismo', 'gimnasio'],
-    v: { practica: 'entrenar hasta que oscurecía', objeto: 'un balón gastado que te acompañaba a todas partes', gerundio: 'entrenando', imagenes: ['cancha', 'futbol-joven'] },
+    claves: ['футбол', 'спорт', 'баскетбол', 'бег', 'плаван', 'теннис', 'волейбол', 'велосипед', 'зал', 'fútbol', 'futbol'],
+    v: { practica: 'тренироваться до темноты', objeto: 'потёртый мяч, который был с тобой повсюду', gerundio: 'тренировался', imagenes: ['cancha', 'futbol-joven'] },
   },
   {
-    claves: ['dibujo', 'dibujar', 'arte', 'pintura', 'pintar', 'diseño', 'ilustración', 'ilustracion'],
-    v: { practica: 'llenar cuadernos de dibujos', objeto: 'una caja de lápices de colores', gerundio: 'dibujando', imagenes: ['cuaderno-escritorio', 'cuaderno', 'habitacion-infantil'] },
+    claves: ['рис', 'искусств', 'живопис', 'дизайн', 'иллюстрац', 'dibuj', 'diseño'],
+    v: { practica: 'заполнять тетради рисунками', objeto: 'коробку цветных карандашей', gerundio: 'рисовал', imagenes: ['cuaderno-escritorio', 'cuaderno', 'habitacion-infantil'] },
   },
   {
-    claves: ['leer', 'lectura', 'libros', 'escribir', 'escritura', 'literatura', 'poesía', 'poesia'],
-    v: { practica: 'leer hasta tarde con una linterna', objeto: 'un libro que leíste tantas veces que se deshizo', gerundio: 'leyendo y escribiendo', imagenes: ['cuaderno-escritorio', 'escritorio'] },
+    claves: ['чит', 'книг', 'писа', 'литератур', 'поэз', 'стих'],
+    v: { practica: 'читать допоздна с фонариком', objeto: 'книгу, которую ты перечитал столько раз, что она развалилась', gerundio: 'читал и писал', imagenes: ['cuaderno-escritorio', 'escritorio'] },
   },
   {
-    claves: ['tecnología', 'tecnologia', 'programación', 'programacion', 'computador', 'videojuegos', 'ciencia', 'robótica', 'código'],
-    v: { practica: 'desarmar aparatos para entender cómo funcionaban', objeto: 'un computador antiguo y lento', gerundio: 'frente a una pantalla', imagenes: ['cuaderno', 'escritorio', 'habitacion-adolescente'] },
+    claves: ['технолог', 'программ', 'компьютер', 'игр', 'наук', 'робот', 'код'],
+    v: { practica: 'разбирать приборы, чтобы понять, как они работают', objeto: 'старый медленный компьютер', gerundio: 'сидел перед экраном', imagenes: ['cuaderno', 'escritorio', 'habitacion-adolescente'] },
   },
   {
-    claves: ['fotografía', 'fotografia', 'fotos', 'cámara', 'camara'],
-    v: { practica: 'fotografiar todo lo que veías', objeto: 'una cámara prestada', gerundio: 'revelando fotografías', imagenes: ['sala-album', 'escritorio'] },
+    claves: ['фото', 'камер'],
+    v: { practica: 'фотографировать всё вокруг', objeto: 'чужую фотокамеру', gerundio: 'проявлял фотографии', imagenes: ['sala-album', 'escritorio'] },
   },
   {
-    claves: ['cine', 'películas', 'peliculas', 'video', 'teatro', 'actuación', 'series'],
-    v: { practica: 'grabar pequeñas historias con lo que tenías a mano', objeto: 'una cámara prestada', gerundio: 'viendo películas', imagenes: ['habitacion-adolescente', 'escritorio'] },
+    claves: ['кино', 'фильм', 'видео', 'театр', 'сериал'],
+    v: { practica: 'снимать маленькие истории на то, что было под рукой', objeto: 'чужую видеокамеру', gerundio: 'смотрел фильмы', imagenes: ['habitacion-adolescente', 'escritorio'] },
   },
   {
-    claves: ['naturaleza', 'viajar', 'viajes', 'montaña', 'animales', 'senderismo', 'mar'],
-    v: { practica: 'explorar lugares a los que nadie más quería ir', objeto: 'un mapa doblado mil veces', gerundio: 'planeando viajes', imagenes: ['niebla', 'parque-vacio', 'calle-barrio'] },
+    claves: ['природ', 'путешеств', 'гор', 'животн', 'поход', 'мор'],
+    v: { practica: 'исследовать места, куда никто не хотел идти', objeto: 'карту, сложенную тысячу раз', gerundio: 'планировал путешествия', imagenes: ['niebla', 'parque-vacio', 'calle-barrio'] },
   },
   {
-    claves: ['cocina', 'cocinar', 'comida', 'repostería', 'reposteria'],
-    v: { practica: 'inventar recetas en la cocina', objeto: 'un cuaderno de recetas heredado', gerundio: 'cocinando', imagenes: ['sala-album', 'cumpleanos'] },
+    claves: ['кухн', 'готов', 'еда', 'выпечк'],
+    v: { practica: 'придумывать рецепты на кухне', objeto: 'тетрадь с бабушкиными рецептами', gerundio: 'готовил', imagenes: ['sala-album', 'cumpleanos'] },
   },
   {
-    claves: ['baile', 'bailar', 'danza'],
-    v: { practica: 'bailar frente al espejo', objeto: 'un viejo reproductor de música', gerundio: 'ensayando pasos', imagenes: ['sala-musica', 'tocadiscos'] },
+    claves: ['танц'],
+    v: { practica: 'танцевать перед зеркалом', objeto: 'старый плеер', gerundio: 'разучивал движения', imagenes: ['sala-musica', 'tocadiscos'] },
   },
 ];
 
@@ -58,44 +59,16 @@ function vocabFor(interes: string): InterestVocab {
   const limpio = interes.trim();
   const lower = limpio.toLowerCase();
   const match = VOCAB.find((g) => g.claves.some((c) => lower.includes(c)));
-  const tema = limpio ? temaConArticulo(limpio) : 'aquello que te apasionaba';
+  // El interés se usa siempre entre comillas y en nominativo, tal como lo escribió la persona.
+  const tema = limpio ? lower.replace(/[«»"]/g, '') : 'то, что ты любил';
   if (match) return { tema, ...match.v };
   return {
     tema,
-    practica: 'perder la noción del tiempo con lo que te gustaba',
-    objeto: 'un objeto pequeño que todavía conservas',
-    gerundio: 'pensando en ello',
+    practica: 'терять счёт времени за любимым делом',
+    objeto: 'маленькую вещь, которую ты хранишь до сих пор',
+    gerundio: 'думал об этом',
     imagenes: ['habitacion-adolescente', 'escritorio', 'cuaderno-escritorio'],
   };
-}
-
-const VERBOS: Record<string, string> = {
-  dibujar: 'el dibujo',
-  pintar: 'la pintura',
-  leer: 'la lectura',
-  escribir: 'la escritura',
-  cocinar: 'la cocina',
-  bailar: 'el baile',
-  cantar: 'el canto',
-  viajar: 'los viajes',
-  programar: 'la programación',
-  correr: 'el atletismo',
-  nadar: 'la natación',
-  actuar: 'la actuación',
-  diseñar: 'el diseño',
-  fotografiar: 'la fotografía',
-  jugar: 'el juego',
-};
-
-function temaConArticulo(texto: string): string {
-  const t = texto.trim();
-  const lower = t.toLowerCase();
-  if (/^(el|la|los|las|un|una)\s/.test(lower)) return lower;
-  // Verbos ("dibujar") → sustantivo natural ("el dibujo"); si no lo conocemos, "el gusto por…".
-  if (/(ar|er|ir)$/.test(lower)) return VERBOS[lower] ?? `el gusto por ${lower}`;
-  if (/(a|ión|dad|tud)$/.test(lower) && !/(ma|ta)$/.test(lower)) return `la ${lower}`;
-  if (/s$/.test(lower)) return `los ${lower}`;
-  return `el ${lower}`;
 }
 
 function capitalizar(s: string) {
@@ -124,15 +97,15 @@ export function visualStateFor(evaluation: Evaluation, _correction: string): Vis
 
 /** Frases de apertura: solo usan datos aportados por la persona. */
 export function introLines(p: Profile): string[] {
-  const lines = [`Esta es la historia de ${p.nombre || 'alguien'}.`];
+  const lines = [p.nombre ? `Это твоя история, ${p.nombre}.` : 'Это твоя история.'];
   if (p.ciudadNacimiento) {
-    lines.push(`Naciste en ${capitalizar(p.ciudadNacimiento.trim())} y creciste entre experiencias que marcaron tu manera de ver el mundo.`);
+    lines.push(`Ты родился в городе ${capitalizar(p.ciudadNacimiento.trim())} и рос среди событий, которые определили твой взгляд на мир.`);
   } else {
-    lines.push('Creciste entre experiencias que marcaron tu manera de ver el mundo.');
+    lines.push('Ты рос среди событий, которые определили твой взгляд на мир.');
   }
   const fecha = fechaLarga(p.cumpleanos);
-  if (fecha) lines.push(`Naciste un ${fecha}.`);
-  if (p.edad !== null) lines.push(`Hoy tienes ${p.edad} años.`);
+  if (fecha) lines.push(`Ты родился ${fecha}.`);
+  if (p.edad !== null) lines.push(`Сегодня тебе ${ru(p.edad, 'год', 'года', 'лет')}.`);
   return lines;
 }
 
@@ -175,19 +148,19 @@ const PER_STAGE = 2;
  */
 export function generateBiography(p: Profile, seed: number = newSeed()): Memory[] {
   const r = rng(seed);
-  const origen = p.ciudadNacimiento ? capitalizar(p.ciudadNacimiento.trim()) : 'tu ciudad natal';
+  const origen = p.ciudadNacimiento ? capitalizar(p.ciudadNacimiento.trim()) : null;
   const actual = p.ciudadActual ? capitalizar(p.ciudadActual.trim()) : '';
   const ctx: Ctx = {
     p,
     v: vocabFor(p.interes),
     origen,
     actual,
-    misma: !actual || actual.toLowerCase() === origen.toLowerCase(),
+    misma: !actual || actual.toLowerCase() === (origen ?? '').toLowerCase(),
     sinCiudades: !p.ciudadNacimiento && !p.ciudadActual,
     nombre: p.nombre.trim(),
-    signo: null,
     fecha: fechaLarga(p.cumpleanos),
-    enAnios: (age, fallback) => (age === null ? fallback : `A los ${age} años`),
+    enAnios: (age, fallback) => (age === null ? fallback : `В ${ru(age, 'год', 'года', 'лет')}`),
+    anios: (age) => ru(age, 'год', 'года', 'лет'),
     capitalizar,
   };
 
@@ -255,7 +228,7 @@ export function generateBiography(p: Profile, seed: number = newSeed()): Memory[
         title: typeof e.title === 'function' ? e.title(ctx) : e.title,
         statement: capitalizar(e.text(ctx, age)),
         image,
-        imageAlt: `${IMAGE_ALT[image] ?? 'Fotografía'} (imagen ilustrativa).`,
+        imageAlt: `${IMAGE_ALT[image] ?? 'Фотография'} (иллюстрация).`,
         origin: e.kind === 'barnum' || e.kind === 'especifico' ? 'especulativo' : 'inferido',
         speculative: true,
         evaluation: 'pendiente',
@@ -302,6 +275,4 @@ export function computeStats(memories: Memory[]): Stats {
   };
 }
 
-export function plural(n: number, uno: string, varios: string) {
-  return `${n} ${n === 1 ? uno : varios}`;
-}
+export { ru as plural } from './visual';

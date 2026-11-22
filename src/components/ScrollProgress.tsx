@@ -49,7 +49,7 @@ export function ScrollProgress() {
   const hidden = ['comparacion', 'reflexion'].includes(state.currentStage);
 
   return (
-    <nav className={`progress ${hidden ? 'is-hidden' : ''}`} aria-label="Línea de tu vida">
+    <nav className={`progress ${hidden ? 'is-hidden' : ''}`} aria-label="Линия твоей жизни">
       <div className="progress__readout" aria-hidden>
         {activeMem ? (
           <>
@@ -57,7 +57,7 @@ export function ScrollProgress() {
             {activeMem.approxYear && <span>{activeMem.approxYear}</span>}
           </>
         ) : (
-          <span>Tu vida</span>
+          <span>Твоя жизнь</span>
         )}
       </div>
       <div className="progress__bar">
@@ -70,7 +70,7 @@ export function ScrollProgress() {
                 type="button"
                 className={`progress__node progress__node--${m.evaluation} ${active === m.id ? 'is-active' : ''}`}
                 onClick={() => scrollToId(`recuerdo-${m.id}`, reduced)}
-                aria-label={`Recuerdo ${i + 1}: ${m.title}. ${EVAL_LABEL[m.evaluation]}`}
+                aria-label={`Воспоминание ${i + 1}: ${m.title}. ${EVAL_LABEL[m.evaluation]}`}
                 aria-current={active === m.id ? 'step' : undefined}
               />
             </li>

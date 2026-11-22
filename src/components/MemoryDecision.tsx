@@ -8,9 +8,9 @@ interface Props {
 }
 
 const OPTIONS: { value: Evaluation; label: string; Icon: typeof Check }[] = [
-  { value: 'confirmado', label: 'Sí, pasó.', Icon: Check },
-  { value: 'rechazado', label: 'No, eso nunca pasó.', Icon: X },
-  { value: 'incierto', label: 'No estoy seguro.', Icon: HelpCircle },
+  { value: 'confirmado', label: 'Да, это было.', Icon: Check },
+  { value: 'rechazado', label: 'Нет, этого не было.', Icon: X },
+  { value: 'incierto', label: 'Не уверен.', Icon: HelpCircle },
 ];
 
 /** Las tres respuestas posibles ante un recuerdo. La persona decide; el sistema nunca clasifica. */
@@ -18,7 +18,7 @@ export function MemoryDecision({ id, value, onChange }: Props) {
   return (
     <fieldset className="decision">
       <legend className="decision__q" id={`pregunta-${id}`}>
-        ¿Esto realmente pasó?
+        Это правда было?
       </legend>
       <div className="decision__options">
         {OPTIONS.map(({ value: v, label, Icon }) => (

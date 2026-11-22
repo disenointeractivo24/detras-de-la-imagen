@@ -5,7 +5,7 @@ export function ExperienceLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <a className="skip-link" href="#contenido">
-        Saltar al contenido
+        К содержанию
       </a>
       <NavigationControls />
       <main id="contenido" tabIndex={-1}>

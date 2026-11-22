@@ -11,7 +11,7 @@ interface Props {
 }
 
 /** Diálogo modal accesible basado en <dialog> nativo. */
-export function ConfirmDialog({ open, title, body, confirmLabel, cancelLabel = 'Cancelar', onConfirm, onCancel }: Props) {
+export function ConfirmDialog({ open, title, body, confirmLabel, cancelLabel = 'Отмена', onConfirm, onCancel }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {

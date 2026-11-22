@@ -75,8 +75,8 @@ export interface ExperienceState {
 }
 
 export const STAGES: { id: LifeStage; numero: string; titulo: string; lema: string }[] = [
-  { id: 'infancia', numero: '01', titulo: 'Infancia', lema: 'Los primeros recuerdos.' },
-  { id: 'adolescencia', numero: '02', titulo: 'Adolescencia', lema: 'Los años que empezaron a definirte.' },
-  { id: 'decisiones', numero: '03', titulo: 'Decisiones', lema: 'Los caminos que elegiste.' },
-  { id: 'presente', numero: '04', titulo: 'Presente', lema: 'En quién te has convertido.' },
+  { id: 'infancia', numero: '01', titulo: 'Детство', lema: 'Первые воспоминания.' },
+  { id: 'adolescencia', numero: '02', titulo: 'Юность', lema: 'Годы, которые начали тебя определять.' },
+  { id: 'decisiones', numero: '03', titulo: 'Решения', lema: 'Пути, которые ты выбрал.' },
+  { id: 'presente', numero: '04', titulo: 'Сейчас', lema: 'Кем ты стал.' },
 ];

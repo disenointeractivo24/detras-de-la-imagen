@@ -24,63 +24,63 @@ interface Question {
 const QUESTIONS: Question[] = [
   {
     key: 'nombre',
-    pregunta: '¿Cómo te llamas?',
-    ayuda: 'Tu nombre o un apodo. Solo lo usaremos para contar tu historia.',
-    placeholder: 'Escribe tu nombre',
+    pregunta: 'Как тебя зовут?',
+    ayuda: 'Имя или прозвище. Мы используем его только для твоей истории.',
+    placeholder: 'Напиши своё имя',
     requerido: true,
     max: 40,
-    resumen: 'Nombre',
+    resumen: 'Имя',
   },
   {
     key: 'edad',
-    pregunta: '¿Cuántos años tienes?',
-    ayuda: 'Nos ayuda a ubicar tus recuerdos en el tiempo.',
-    placeholder: 'Por ejemplo, 21',
+    pregunta: 'Сколько тебе лет?',
+    ayuda: 'Это поможет расставить воспоминания во времени.',
+    placeholder: 'Например, 21',
     tipo: 'number',
     max: 3,
-    resumen: 'Edad',
+    resumen: 'Возраст',
   },
   {
     key: 'cumpleanos',
-    pregunta: '¿Qué día cumples años?',
-    ayuda: 'Solo el día y el mes, por ejemplo 14/08. No necesitamos el año.',
-    placeholder: 'DD/MM',
+    pregunta: 'Когда у тебя день рождения?',
+    ayuda: 'Только день и месяц, например 14/08. Год не нужен.',
+    placeholder: 'ДД/ММ',
     tipo: 'fecha',
     max: 20,
-    resumen: 'Cumpleaños',
+    resumen: 'День рождения',
   },
   {
     key: 'ciudadNacimiento',
-    pregunta: '¿En qué ciudad naciste?',
-    ayuda: 'Solo el nombre de la ciudad. Nunca pediremos direcciones.',
-    placeholder: 'Por ejemplo, Cali',
+    pregunta: 'В каком городе ты родился?',
+    ayuda: 'Только название города. Адрес мы никогда не спросим.',
+    placeholder: 'Например, Кали',
     max: 50,
-    resumen: 'Ciudad de nacimiento',
+    resumen: 'Город рождения',
   },
   {
     key: 'ciudadActual',
-    pregunta: '¿Y en qué ciudad vives ahora?',
-    ayuda: 'Puede ser la misma en la que naciste.',
-    placeholder: 'Por ejemplo, Bogotá',
+    pregunta: 'А где ты живёшь сейчас?',
+    ayuda: 'Может быть тот же город, где ты родился.',
+    placeholder: 'Например, Богота',
     max: 50,
-    resumen: 'Ciudad actual',
+    resumen: 'Город сейчас',
   },
   {
     key: 'interes',
-    pregunta: 'Cuéntanos algo que te apasione.',
-    ayuda: 'Una palabra o una frase corta: la música, el fútbol, dibujar…',
-    placeholder: 'Por ejemplo, la música',
+    pregunta: 'Расскажи, что ты любишь.',
+    ayuda: 'Одно слово или короткая фраза: музыка, футбол, рисование…',
+    placeholder: 'Например, музыка',
     max: 50,
-    resumen: 'Interés',
+    resumen: 'Увлечение',
   },
   {
     key: 'hito',
-    pregunta: '¿Qué momento de tu vida consideras importante?',
-    ayuda: 'Elige uno. La máquina se encargará del resto.',
+    pregunta: 'Какой момент твоей жизни для тебя важен?',
+    ayuda: 'Выбери один. Остальное машина сделает сама.',
     placeholder: '',
-    opciones: ['El día de mi grado', 'Cuando me mudé', 'Un viaje', 'Cuando conocí a alguien', 'Cuando perdí a alguien', 'Mi primer trabajo'],
+    opciones: ['Мой выпускной', 'Когда я переехал', 'Одно путешествие', 'Когда я кого-то встретил', 'Когда я кого-то потерял', 'Моя первая работа'],
     max: 120,
-    resumen: 'Momento importante',
+    resumen: 'Важный момент',
   },
 ];
 
@@ -153,7 +153,7 @@ export function IdentityQuestionnaire() {
 
       <div className="identity__inner">
         <p id="identidad-titulo" className="eyebrow">
-          Para reconstruir tu historia, primero necesitamos conocerte.
+          Чтобы восстановить твою историю, сначала нужно узнать тебя.
         </p>
 
         <div className="identity__stage" aria-live="polite">
@@ -190,7 +190,7 @@ export function IdentityQuestionnaire() {
                 exit="exit"
                 transition={{ duration: reduced ? 0.2 : 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
-                <h2 className="review__title">Esto es lo que nos contaste.</h2>
+                <h2 className="review__title">Вот что ты нам рассказал.</h2>
                 <dl className="review__list">
                   {QUESTIONS.map((qq, i) => {
                     const raw = toText(state.profile[qq.key]);
@@ -199,8 +199,8 @@ export function IdentityQuestionnaire() {
                       <div key={qq.key} className="review__item">
                         <dt>{qq.resumen}</dt>
                         <dd>
-                          <span className={v ? '' : 'review__empty'}>{v || 'Sin responder'}</span>
-                          <button type="button" className="icon-btn" onClick={() => goTo(i)} aria-label={`Editar: ${qq.resumen}`}>
+                          <span className={v ? '' : 'review__empty'}>{v || 'Без ответа'}</span>
+                          <button type="button" className="icon-btn" onClick={() => goTo(i)} aria-label={`Изменить: ${qq.resumen}`}>
                             <Pencil size={14} aria-hidden />
                           </button>
                         </dd>
@@ -209,15 +209,15 @@ export function IdentityQuestionnaire() {
                   })}
                 </dl>
                 <p className="review__privacy">
-                  No necesitamos documentos de identidad, direcciones, contraseñas ni acceso a tus redes. Todo se queda en
-                  este navegador.
+                  Нам не нужны документы, адреса, пароли или доступ к твоим соцсетям. Всё остаётся
+                  в этом браузере.
                 </p>
                 <div className="review__actions">
                   <button type="button" className="link-btn" onClick={back}>
-                    <ArrowLeft size={14} aria-hidden /> Atrás
+                    <ArrowLeft size={14} aria-hidden /> Назад
                   </button>
                   <button type="button" className="btn btn--solid" onClick={start}>
-                    Reconstruir mi historia <ArrowRight size={16} aria-hidden />
+                    Восстановить мою историю <ArrowRight size={16} aria-hidden />
                   </button>
                 </div>
               </motion.div>
@@ -225,7 +225,7 @@ export function IdentityQuestionnaire() {
           </AnimatePresence>
         </div>
 
-        <ol className="steps" aria-label="Progreso de las preguntas">
+        <ol className="steps" aria-label="Прогресс вопросов">
           {[...QUESTIONS, null].map((qq, i) => (
             <li key={qq?.key ?? 'resumen'}>
               <button
@@ -234,7 +234,7 @@ export function IdentityQuestionnaire() {
                 disabled={i > furthest}
                 onClick={() => goTo(i)}
                 aria-current={i === step ? 'step' : undefined}
-                aria-label={qq ? `Pregunta ${i + 1}: ${qq.resumen}` : 'Resumen de respuestas'}
+                aria-label={qq ? `Вопрос ${i + 1}: ${qq.resumen}` : 'Сводка ответов'}
               />
             </li>
           ))}
@@ -250,7 +250,7 @@ export function IdentityQuestionnaire() {
             animate={{ opacity: 1 }}
             transition={{ duration: reduced ? 0.2 : 1.6 }}
           >
-            <p>Estamos reconstruyendo tu historia…</p>
+            <p>Восстанавливаем твою историю…</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -264,18 +264,18 @@ type Variants = Record<'initial' | 'animate' | 'exit', Record<string, string | n
 /** Validación de una respuesta. Devuelve el valor interpretado o un mensaje de error. */
 function parseAnswer(q: Question, raw: string): { ok: true; value: Profile[Key] } | { ok: false; error: string } {
   const v = raw.trim();
-  if (q.requerido && !v) return { ok: false, error: 'Escribe un nombre o un apodo para continuar.' };
+  if (q.requerido && !v) return { ok: false, error: 'Напиши имя или прозвище, чтобы продолжить.' };
   if (q.tipo === 'fecha') {
     if (!v) return { ok: true, value: '' };
     const f = parseCumpleanos(v);
-    if (!f) return { ok: false, error: 'Escribe el día y el mes, por ejemplo 14/08 o 14 de agosto, o deja la pregunta sin responder.' };
+    if (!f) return { ok: false, error: 'Напиши день и месяц, например 14/08, или оставь вопрос без ответа.' };
     return { ok: true, value: f };
   }
   if (q.tipo === 'number') {
     if (!v) return { ok: true, value: null };
     const n = Number(v);
     if (!Number.isInteger(n) || n < 1 || n > 120)
-      return { ok: false, error: 'Escribe una edad entre 1 y 120, o deja la pregunta sin responder.' };
+      return { ok: false, error: 'Укажи возраст от 1 до 120 или оставь вопрос без ответа.' };
     return { ok: true, value: n };
   }
   return { ok: true, value: v };
@@ -368,13 +368,13 @@ function QuestionForm({ q, initial, isFirst, reduced, variants, onSubmit, onBack
           aria-invalid={!!error}
           aria-required={q.requerido}
         />
-        <button type="submit" className="question__go" aria-label="Continuar">
+        <button type="submit" className="question__go" aria-label="Далее">
           <ArrowRight size={20} aria-hidden />
         </button>
       </div>
       )}
       <p id={`ayuda-${q.key}`} className="question__help">
-        {q.ayuda} {q.requerido ? '' : <span className="question__optional">(Opcional)</span>}
+        {q.ayuda} {q.requerido ? '' : <span className="question__optional">(Необязательно)</span>}
       </p>
       {error && (
         <p id={`error-${q.key}`} className="question__error" role="alert">
@@ -391,15 +391,15 @@ function QuestionForm({ q, initial, isFirst, reduced, variants, onSubmit, onBack
             leave(() => onBack(r.ok ? r.value : undefined));
           }}
         >
-          <ArrowLeft size={14} aria-hidden /> Atrás
+          <ArrowLeft size={14} aria-hidden /> Назад
         </button>
         {!q.requerido && (
           <button type="button" className="link-btn" onClick={() => leave(onSkip)}>
-            Omitir esta pregunta
+            Пропустить вопрос
           </button>
         )}
         <span className="question__kbd" aria-hidden>
-          Pulsa <kbd>Enter</kbd> para continuar
+          Нажми <kbd>Enter</kbd>, чтобы продолжить
         </span>
       </div>
     </motion.form>

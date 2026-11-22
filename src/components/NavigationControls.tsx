@@ -7,10 +7,10 @@ import { scrollToId } from '../lib/visual';
 import { ConfirmDialog } from './ConfirmDialog';
 
 export const NAV_SECTIONS = [
-  { id: 'biografia', label: 'Así creemos que fue' },
+  { id: 'biografia', label: 'Такой мы видим твою историю' },
   ...STAGES.map((s) => ({ id: `capitulo-${s.id}`, label: `${s.numero} · ${s.titulo}` })),
-  { id: 'cambios', label: 'La biografía cambia' },
-  { id: 'reflexion', label: 'Reflexión final' },
+  { id: 'cambios', label: 'Биография меняется' },
+  { id: 'reflexion', label: 'Финал' },
 ];
 
 export function NavigationControls() {
@@ -60,15 +60,15 @@ export function NavigationControls() {
           type="button"
           className="topbar__brand"
           onClick={() => window.scrollTo({ top: 0, behavior: state.reducedMotion ? 'auto' : 'smooth' })}
-          aria-label="Detrás de la imagen. Volver al inicio de la página"
+          aria-label="По ту сторону кадра. В начало страницы"
         >
-          Detrás de la imagen
+          По ту сторону кадра
         </button>
         <div className="topbar__actions">
-          {state.demo && <span className="topbar__demo">Ejemplo · {DEMO_NAME}</span>}
+          {state.demo && <span className="topbar__demo">Пример · {DEMO_NAME}</span>}
           {inBio && state.currentStage !== 'reflexion' && (
             <button type="button" className="topbar__next" onClick={nextSection}>
-              <span>Siguiente</span>
+              <span>Дальше</span>
               <ArrowDown size={14} aria-hidden />
             </button>
           )}
@@ -81,7 +81,7 @@ export function NavigationControls() {
             onClick={() => setOpen((o) => !o)}
           >
             {open ? <X size={18} aria-hidden /> : <Menu size={18} aria-hidden />}
-            <span className="sr-only">{open ? 'Cerrar menú' : 'Abrir menú'}</span>
+            <span className="sr-only">{open ? 'Закрыть меню' : 'Открыть меню'}</span>
           </button>
         </div>
       </header>
@@ -92,11 +92,11 @@ export function NavigationControls() {
         className={`navpanel ${open ? 'is-open' : ''}`}
         role="dialog"
         aria-modal="false"
-        aria-label="Navegación de la experiencia"
+        aria-label="Навигация"
         hidden={!open}
       >
         {inBio ? (
-          <nav aria-label="Etapas de tu historia">
+          <nav aria-label="Этапы твоей истории">
             <p className="navpanel__label">Tu historia</p>
             <ol className="navpanel__list">
               {NAV_SECTIONS.map((s) => (
@@ -115,7 +115,7 @@ export function NavigationControls() {
           </nav>
         ) : (
           <p className="navpanel__note">
-            Las etapas de tu historia aparecerán aquí cuando la reconstrucción esté lista.
+            Этапы твоей истории появятся здесь, когда реконструкция будет готова.
           </p>
         )}
 
@@ -127,27 +127,27 @@ export function NavigationControls() {
               onChange={(e) => dispatch({ type: 'setReducedMotion', value: e.target.checked })}
             />
             <span className="switch__track" aria-hidden />
-            <span>Reducir movimiento</span>
+            <span>Меньше анимации</span>
           </label>
           <p className="navpanel__privacy">
-            Tus respuestas se guardan solo en este navegador. Nada se envía a ningún servidor.
+            Ответы хранятся только в этом браузере. Ничего не отправляется на сервер.
           </p>
           {state.demo && (
             <button type="button" className="btn btn--solid btn--small" onClick={wipe}>
-              Salir del ejemplo y crear la mía
+              Выйти из примера и создать свою
             </button>
           )}
           <button type="button" className="btn btn--line btn--small" onClick={() => setConfirm(true)}>
-            Borrar mis datos guardados
+            Удалить мои данные
           </button>
         </div>
       </div>
 
       <ConfirmDialog
         open={confirm}
-        title="¿Borrar todo?"
-        body="Se eliminarán tus respuestas, la biografía generada, tus decisiones y tus correcciones de este navegador. No se puede deshacer."
-        confirmLabel="Sí, borrar mis datos"
+        title="Удалить всё?"
+        body="Из этого браузера будут удалены твои ответы, биография, решения и правки. Это нельзя отменить."
+        confirmLabel="Да, удалить"
         onConfirm={wipe}
         onCancel={() => setConfirm(false)}
       />

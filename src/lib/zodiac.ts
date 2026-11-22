@@ -37,7 +37,7 @@ export const ELEMENTO_ADOLESCENCIA: Record<Elemento, string> = {
   agua: 'te emocionabas con las películas aunque intentaras disimularlo',
 };
 
-const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+const MESES = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 const DIAS_MES = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 /**
@@ -54,7 +54,7 @@ export function parseCumpleanos(raw: string): string | null {
     d = Number(num[1]);
     m = Number(num[2]);
   } else {
-    const txt = t.match(/^(\d{1,2})\s*(?:de\s+)?([a-záéíóú]+)$/);
+    const txt = t.match(/^(\d{1,2})\s*(?:de\s+)?(\p{L}+)$/u);
     if (txt) {
       d = Number(txt[1]);
       const idx = MESES.findIndex((mm) => mm.startsWith(txt[2].slice(0, 3)));
@@ -81,5 +81,5 @@ export function fechaLarga(cumple: string): string | null {
   const ok = parseCumpleanos(cumple);
   if (!ok) return null;
   const [d, m] = ok.split('/').map(Number);
-  return `${d} de ${MESES[m - 1]}`;
+  return `${d} ${MESES[m - 1]}`;
 }

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { formatAge } from '../lib/visual';
 import type { Memory } from '../lib/types';
 
 /** Recuerdos que ya se "generaron" en esta visita: al volver con el scroll no se repite. */
@@ -9,12 +10,12 @@ type Phase = 'idle' | 'typing' | 'rendering' | 'done';
 /** Construye el prompt con el que la máquina "pide" la imagen del recuerdo. */
 export function promptFor(m: Memory) {
   const escena = m.imageAlt
-    .replace(/\s*Fotografía del ejemplo\.?$/i, '')
-    .replace(/\s*\(imagen ilustrativa\)\.?$/i, '')
+    .replace(/\s*Фотография из примера\.?$/i, '')
+    .replace(/\s*\(иллюстрация\)\.?$/i, '')
     .replace(/\.$/, '')
     .toLowerCase();
-  const cuando = [m.approxAge !== null ? `${m.approxAge} años` : null, m.approxYear].filter(Boolean).join(', ');
-  return `${escena}${cuando ? `, ${cuando}` : ''}, foto de álbum familiar, blanco y negro, grano de película, luz natural`;
+  const cuando = [m.approxAge !== null ? formatAge(m.approxAge) : null, m.approxYear].filter(Boolean).join(', ');
+  return `${escena}${cuando ? `, ${cuando}` : ''}, фото из семейного альбома, чёрно-белое, плёночное зерно, естественный свет`;
 }
 
 interface Props {
@@ -101,12 +102,12 @@ export function PromptGeneration({ memory: m, reduced, target }: Props) {
     <div ref={box} className={`gen gen--${phase}`} aria-hidden>
       <div className="gen__console">
         <p className="gen__prompt">
-          <span className="gen__caret-label">descripción &gt;</span> {prompt.slice(0, typed)}
+          <span className="gen__caret-label">описание &gt;</span> {prompt.slice(0, typed)}
           {phase !== 'rendering' && <span className="gen__caret" />}
         </p>
         {phase === 'rendering' && (
           <p className="gen__status">
-            Reconstruyendo lo que pudo haber sido… {Math.round(progress * 100)}%
+            Восстанавливаю то, что могло быть… {Math.round(progress * 100)}%
             <span className="gen__bar">
               <span style={{ transform: `scaleX(${progress})` }} />
             </span>

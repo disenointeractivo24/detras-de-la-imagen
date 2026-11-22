@@ -16,7 +16,7 @@ const FRAGMENTS = [
   { src: 'nina-columpio', x: 88, y: 30, w: 12, r: 3 },
 ];
 
-const TITLE = ['DETRÁS', 'DE LA', 'IMAGEN'];
+const TITLE = ['ПО ТУ', 'СТОРОНУ', 'КАДРА'];
 
 export function IntroExperience() {
   const { state, dispatch } = useExperience();
@@ -105,7 +105,7 @@ export function IntroExperience() {
         </div>
 
         <div className="intro__content">
-          <h1 id="titulo-principal" className="intro__title" aria-label="Detrás de la imagen">
+          <h1 id="titulo-principal" className="intro__title" aria-label="По ту сторону кадра">
             {TITLE.map((line, li) => (
               <span key={line} className={`intro__line ${li === 2 ? 'intro__line--italic' : ''}`} aria-hidden>
                 {[...line].map((c, ci) => (
@@ -117,12 +117,12 @@ export function IntroExperience() {
             ))}
           </h1>
           <p className="intro__subtitle">
-            2050. La IA ya reconstruye el pasado completo de la humanidad. Hoy le toca al tuyo.
+            2050. ИИ уже восстанавливает всё прошлое человечества. Сегодня — твоё.
           </p>
           <div className="intro__cta">
             <div className="intro__buttons">
               <button type="button" className="btn btn--line" onClick={() => scrollToId('identidad', reduced)}>
-                Comenzar experiencia
+                Начать
               </button>
               {state.memories.length > 0 && !state.demo && (
                 <button
@@ -133,7 +133,7 @@ export function IntroExperience() {
                     dispatch({ type: 'setPhase', phase: 'biografia' });
                   }}
                 >
-                  Continuar mi biografía
+                  Продолжить мою биографию
                 </button>
               )}
               <button
@@ -144,21 +144,21 @@ export function IntroExperience() {
                   dispatch({ type: 'loadDemo' });
                 }}
               >
-                Ver el ejemplo de {DEMO_NAME}
+                Пример: {DEMO_NAME}
               </button>
             </div>
             <div className="scroll-cue" aria-hidden>
               <span className="scroll-cue__line" />
               <span className="scroll-cue__dot" />
             </div>
-            <p className="intro__hint">Desliza para comenzar.</p>
+            <p className="intro__hint">Листай, чтобы начать.</p>
           </div>
         </div>
 
         <p className="intro__handoff" aria-hidden>
-          Una vida que la IA cree conocer.
+          Жизнь, которую ИИ думает, что знает.
         </p>
-        <p className="intro__disclaimer">Imágenes ilustrativas. Ninguna fotografía pertenece a tu pasado.</p>
+        <p className="intro__disclaimer">Иллюстративные изображения. Ни одна фотография не принадлежит твоему прошлому.</p>
       </div>
     </section>
   );
