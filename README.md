@@ -45,6 +45,17 @@ La carpeta `dist/` resultante es un sitio estático que puede publicarse en cual
 Además: `NavigationControls` (menú, “Siguiente”, reducir movimiento, borrar datos),
 `ScrollProgress` (línea de vida fija con el estado de cada recuerdo) y `ExperienceLayout`.
 
+## Idiomas (ruso / español)
+
+El botón del globo terráqueo de la barra superior cambia entre ruso (idioma por defecto, escenario
+Moscú 2050) y español. El idioma se guarda con el resto del progreso.
+
+- Textos de la interfaz: `t('ruso', 'español')` (`src/lib/i18n.ts`), directamente en cada componente.
+- Textos generados: ruso en `src/lib/{narrative,memoryBank,demo,zodiac}.ts`, español en `src/lib/es/`.
+  `src/lib/content.ts` elige la versión del idioma activo.
+- Si se cambia de idioma con una biografía ya creada, se regenera con la misma semilla (elige los
+  mismos recuerdos y fotos) y se conservan decisiones, correcciones y dibujos.
+
 ## Motor narrativo (sin IA externa)
 
 `src/lib/memoryBank.ts` es un banco de ~30 plantillas de recuerdos, cada una con varias fotografías

@@ -3,8 +3,9 @@ import { AnimatePresence, motion } from 'motion/react';
 import { ArrowLeft, ArrowRight, Pencil } from 'lucide-react';
 import { useExperience } from '../lib/store';
 import type { Profile } from '../lib/types';
-import { fechaLarga, parseCumpleanos } from '../lib/zodiac';
+import { fechaLarga, parseCumpleanos } from '../lib/content';
 import { img, tornClip } from '../lib/visual';
+import { getLang, HITOS, t } from '../lib/i18n';
 
 type Key = keyof Profile;
 
@@ -24,63 +25,119 @@ interface Question {
 const QUESTIONS: Question[] = [
   {
     key: 'nombre',
-    pregunta: 'Как тебя зовут?',
-    ayuda: 'Имя или прозвище. Мы используем его только для твоей истории.',
-    placeholder: 'Напиши своё имя',
+    get pregunta() {
+      return t('Как тебя зовут?', '¿Cómo te llamas?');
+    },
+    get ayuda() {
+      return t('Имя или прозвище. Мы используем его только для твоей истории.', 'Tu nombre o un apodo. Solo lo usaremos para contar tu historia.');
+    },
+    get placeholder() {
+      return t('Напиши своё имя', 'Escribe tu nombre');
+    },
     requerido: true,
     max: 40,
-    resumen: 'Имя',
+    get resumen() {
+      return t('Имя', 'Nombre');
+    },
   },
   {
     key: 'edad',
-    pregunta: 'Сколько тебе лет?',
-    ayuda: 'Это поможет расставить воспоминания во времени.',
-    placeholder: 'Например, 21',
+    get pregunta() {
+      return t('Сколько тебе лет?', '¿Cuántos años tienes?');
+    },
+    get ayuda() {
+      return t('Это поможет расставить воспоминания во времени.', 'Nos ayuda a ubicar tus recuerdos en el tiempo.');
+    },
+    get placeholder() {
+      return t('Например, 21', 'Por ejemplo, 21');
+    },
     tipo: 'number',
     max: 3,
-    resumen: 'Возраст',
+    get resumen() {
+      return t('Возраст', 'Edad');
+    },
   },
   {
     key: 'cumpleanos',
-    pregunta: 'Когда у тебя день рождения?',
-    ayuda: 'Только день и месяц, например 14/08. Год не нужен.',
-    placeholder: 'ДД/ММ',
+    get pregunta() {
+      return t('Когда у тебя день рождения?', '¿Qué día cumples años?');
+    },
+    get ayuda() {
+      return t('Только день и месяц, например 14/08. Год не нужен.', 'Solo el día y el mes, por ejemplo 14/08. No necesitamos el año.');
+    },
+    get placeholder() {
+      return t('ДД/ММ', 'DD/MM');
+    },
     tipo: 'fecha',
     max: 20,
-    resumen: 'День рождения',
+    get resumen() {
+      return t('День рождения', 'Cumpleaños');
+    },
   },
   {
     key: 'ciudadNacimiento',
-    pregunta: 'В каком городе ты родился?',
-    ayuda: 'Только название города. Адрес мы никогда не спросим.',
-    placeholder: 'Например, Кали',
+    get pregunta() {
+      return t('В каком городе ты родился?', '¿En qué ciudad naciste?');
+    },
+    get ayuda() {
+      return t('Только название города. Адрес мы никогда не спросим.', 'Solo el nombre de la ciudad. Nunca pediremos direcciones.');
+    },
+    get placeholder() {
+      return t('Например, Кали', 'Por ejemplo, Cali');
+    },
     max: 50,
-    resumen: 'Город рождения',
+    get resumen() {
+      return t('Город рождения', 'Ciudad de nacimiento');
+    },
   },
   {
     key: 'ciudadActual',
-    pregunta: 'А где ты живёшь сейчас?',
-    ayuda: 'Может быть тот же город, где ты родился.',
-    placeholder: 'Например, Богота',
+    get pregunta() {
+      return t('А где ты живёшь сейчас?', '¿Y en qué ciudad vives ahora?');
+    },
+    get ayuda() {
+      return t('Может быть тот же город, где ты родился.', 'Puede ser la misma en la que naciste.');
+    },
+    get placeholder() {
+      return t('Например, Богота', 'Por ejemplo, Bogotá');
+    },
     max: 50,
-    resumen: 'Город сейчас',
+    get resumen() {
+      return t('Город сейчас', 'Ciudad actual');
+    },
   },
   {
     key: 'interes',
-    pregunta: 'Расскажи, что ты любишь.',
-    ayuda: 'Одно слово или короткая фраза: музыка, футбол, рисование…',
-    placeholder: 'Например, музыка',
+    get pregunta() {
+      return t('Расскажи, что ты любишь.', 'Cuéntanos algo que te apasione.');
+    },
+    get ayuda() {
+      return t('Одно слово или короткая фраза: музыка, футбол, рисование…', 'Una palabra o una frase corta: la música, el fútbol, dibujar…');
+    },
+    get placeholder() {
+      return t('Например, музыка', 'Por ejemplo, la música');
+    },
     max: 50,
-    resumen: 'Увлечение',
+    get resumen() {
+      return t('Увлечение', 'Interés');
+    },
   },
   {
     key: 'hito',
-    pregunta: 'Какой момент твоей жизни для тебя важен?',
-    ayuda: 'Выбери один. Остальное машина сделает сама.',
+    get pregunta() {
+      return t('Какой момент твоей жизни для тебя важен?', '¿Qué momento de tu vida consideras importante?');
+    },
+    get ayuda() {
+      return t('Выбери один. Остальное машина сделает сама.', 'Elige uno. La máquina se encargará del resto.');
+    },
     placeholder: '',
-    opciones: ['Мой выпускной', 'Когда я переехал', 'Одно путешествие', 'Когда я кого-то встретил', 'Когда я кого-то потерял', 'Моя первая работа'],
+    get opciones() {
+      return HITOS[getLang()];
+    },
     max: 120,
-    resumen: 'Важный момент',
+    get resumen() {
+      return t('Важный момент', 'Momento importante');
+    },
   },
 ];
 
@@ -153,7 +210,7 @@ export function IdentityQuestionnaire() {
 
       <div className="identity__inner">
         <p id="identidad-titulo" className="eyebrow">
-          Чтобы восстановить твою историю, сначала нужно узнать тебя.
+          {t('Чтобы восстановить твою историю, сначала нужно узнать тебя.', 'Para reconstruir tu historia, primero necesitamos conocerte.')}
         </p>
 
         <div className="identity__stage" aria-live="polite">
@@ -190,7 +247,7 @@ export function IdentityQuestionnaire() {
                 exit="exit"
                 transition={{ duration: reduced ? 0.2 : 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
-                <h2 className="review__title">Вот что ты нам рассказал.</h2>
+                <h2 className="review__title">{t('Вот что ты нам рассказал.', 'Esto es lo que nos contaste.')}</h2>
                 <dl className="review__list">
                   {QUESTIONS.map((qq, i) => {
                     const raw = toText(state.profile[qq.key]);
@@ -199,8 +256,8 @@ export function IdentityQuestionnaire() {
                       <div key={qq.key} className="review__item">
                         <dt>{qq.resumen}</dt>
                         <dd>
-                          <span className={v ? '' : 'review__empty'}>{v || 'Без ответа'}</span>
-                          <button type="button" className="icon-btn" onClick={() => goTo(i)} aria-label={`Изменить: ${qq.resumen}`}>
+                          <span className={v ? '' : 'review__empty'}>{v || t('Без ответа', 'Sin responder')}</span>
+                          <button type="button" className="icon-btn" onClick={() => goTo(i)} aria-label={`${t('Изменить', 'Editar')}: ${qq.resumen}`}>
                             <Pencil size={14} aria-hidden />
                           </button>
                         </dd>
@@ -209,15 +266,17 @@ export function IdentityQuestionnaire() {
                   })}
                 </dl>
                 <p className="review__privacy">
-                  Нам не нужны документы, адреса, пароли или доступ к твоим соцсетям. Всё остаётся
-                  в этом браузере.
+                  {t(
+                    'Нам не нужны документы, адреса, пароли или доступ к твоим соцсетям. Всё остаётся в этом браузере.',
+                    'No necesitamos documentos de identidad, direcciones, contraseñas ni acceso a tus redes. Todo se queda en este navegador.',
+                  )}
                 </p>
                 <div className="review__actions">
                   <button type="button" className="link-btn" onClick={back}>
-                    <ArrowLeft size={14} aria-hidden /> Назад
+                    <ArrowLeft size={14} aria-hidden /> {t('Назад', 'Atrás')}
                   </button>
                   <button type="button" className="btn btn--solid" onClick={start}>
-                    Восстановить мою историю <ArrowRight size={16} aria-hidden />
+                    {t('Восстановить мою историю', 'Reconstruir mi historia')} <ArrowRight size={16} aria-hidden />
                   </button>
                 </div>
               </motion.div>
@@ -225,7 +284,7 @@ export function IdentityQuestionnaire() {
           </AnimatePresence>
         </div>
 
-        <ol className="steps" aria-label="Прогресс вопросов">
+        <ol className="steps" aria-label={t('Прогресс вопросов', 'Progreso de las preguntas')}>
           {[...QUESTIONS, null].map((qq, i) => (
             <li key={qq?.key ?? 'resumen'}>
               <button
@@ -234,7 +293,7 @@ export function IdentityQuestionnaire() {
                 disabled={i > furthest}
                 onClick={() => goTo(i)}
                 aria-current={i === step ? 'step' : undefined}
-                aria-label={qq ? `Вопрос ${i + 1}: ${qq.resumen}` : 'Сводка ответов'}
+                aria-label={qq ? `${t('Вопрос', 'Pregunta')} ${i + 1}: ${qq.resumen}` : t('Сводка ответов', 'Resumen de respuestas')}
               />
             </li>
           ))}
@@ -250,7 +309,7 @@ export function IdentityQuestionnaire() {
             animate={{ opacity: 1 }}
             transition={{ duration: reduced ? 0.2 : 1.6 }}
           >
-            <p>Восстанавливаем твою историю…</p>
+            <p>{t('Восстанавливаем твою историю…', 'Estamos reconstruyendo tu historia…')}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -264,18 +323,18 @@ type Variants = Record<'initial' | 'animate' | 'exit', Record<string, string | n
 /** Validación de una respuesta. Devuelve el valor interpretado o un mensaje de error. */
 function parseAnswer(q: Question, raw: string): { ok: true; value: Profile[Key] } | { ok: false; error: string } {
   const v = raw.trim();
-  if (q.requerido && !v) return { ok: false, error: 'Напиши имя или прозвище, чтобы продолжить.' };
+  if (q.requerido && !v) return { ok: false, error: t('Напиши имя или прозвище, чтобы продолжить.', 'Escribe un nombre o un apodo para continuar.') };
   if (q.tipo === 'fecha') {
     if (!v) return { ok: true, value: '' };
     const f = parseCumpleanos(v);
-    if (!f) return { ok: false, error: 'Напиши день и месяц, например 14/08, или оставь вопрос без ответа.' };
+    if (!f) return { ok: false, error: t('Напиши день и месяц, например 14/08, или оставь вопрос без ответа.', 'Escribe el día y el mes, por ejemplo 14/08 o 14 de agosto, o deja la pregunta sin responder.') };
     return { ok: true, value: f };
   }
   if (q.tipo === 'number') {
     if (!v) return { ok: true, value: null };
     const n = Number(v);
     if (!Number.isInteger(n) || n < 1 || n > 120)
-      return { ok: false, error: 'Укажи возраст от 1 до 120 или оставь вопрос без ответа.' };
+      return { ok: false, error: t('Укажи возраст от 1 до 120 или оставь вопрос без ответа.', 'Escribe una edad entre 1 y 120, o deja la pregunta sin responder.') };
     return { ok: true, value: n };
   }
   return { ok: true, value: v };
@@ -368,13 +427,13 @@ function QuestionForm({ q, initial, isFirst, reduced, variants, onSubmit, onBack
           aria-invalid={!!error}
           aria-required={q.requerido}
         />
-        <button type="submit" className="question__go" aria-label="Далее">
+        <button type="submit" className="question__go" aria-label={t('Далее', 'Continuar')}>
           <ArrowRight size={20} aria-hidden />
         </button>
       </div>
       )}
       <p id={`ayuda-${q.key}`} className="question__help">
-        {q.ayuda} {q.requerido ? '' : <span className="question__optional">(Необязательно)</span>}
+        {q.ayuda} {q.requerido ? '' : <span className="question__optional">{t('(Необязательно)', '(Opcional)')}</span>}
       </p>
       {error && (
         <p id={`error-${q.key}`} className="question__error" role="alert">
@@ -391,15 +450,15 @@ function QuestionForm({ q, initial, isFirst, reduced, variants, onSubmit, onBack
             leave(() => onBack(r.ok ? r.value : undefined));
           }}
         >
-          <ArrowLeft size={14} aria-hidden /> Назад
+          <ArrowLeft size={14} aria-hidden /> {t('Назад', 'Atrás')}
         </button>
         {!q.requerido && (
           <button type="button" className="link-btn" onClick={() => leave(onSkip)}>
-            Пропустить вопрос
+            {t('Пропустить вопрос', 'Omitir esta pregunta')}
           </button>
         )}
         <span className="question__kbd" aria-hidden>
-          Нажми <kbd>Enter</kbd>, чтобы продолжить
+          {t(<>Нажми <kbd>Enter</kbd>, чтобы продолжить</>, <>Pulsa <kbd>Enter</kbd> para continuar</>)}
         </span>
       </div>
     </motion.form>

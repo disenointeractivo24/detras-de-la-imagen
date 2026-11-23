@@ -1,10 +1,11 @@
 import { useRef } from 'react';
 import { useExperience } from '../lib/store';
 import type { LifeStage, Memory } from '../lib/types';
-import { DEMO_ART } from '../lib/demo';
-import { chapterArt } from '../lib/narrative';
+import { DEMO_ART } from '../lib/content';
+import { chapterArt } from '../lib/content';
 import { formatAge, gsap, imgAttrs, tornClip, useGSAP } from '../lib/visual';
 import { MemoryScene } from './MemoryScene';
+import { t } from '../lib/i18n';
 
 
 interface Props {
@@ -73,14 +74,14 @@ export function LifeChapter({ stage, memories, fromAge, startIndex, nextIds }: P
             <img {...imgAttrs(art.cover)} alt="" loading="lazy" />
           </div>
           <p className="chapter__meta chapter__meta--top">
-            <span>Глава {stage.numero}</span>
+            <span>{t('Глава', 'Capítulo')} {stage.numero}</span>
             <span className="chapter__line" aria-hidden />
             {toAge !== null && birthYear !== null ? (
-              <span className="chapter__year" aria-label={`Год ${birthYear + toAge}`}>
+              <span className="chapter__year" aria-label={`${t('Год', 'Año')} ${birthYear + toAge}`}>
                 <span className="chapter__year-num">{birthYear + toAge}</span>
               </span>
             ) : (
-              <span>Год неизвестен</span>
+              <span>{t('Год неизвестен', 'Año desconocido')}</span>
             )}
           </p>
           <h2
@@ -97,7 +98,7 @@ export function LifeChapter({ stage, memories, fromAge, startIndex, nextIds }: P
             <p className="chapter__lema">{stage.lema}</p>
             {toAge !== null && (
               <p className="chapter__age">
-                <span className="chapter__age-label">Примерный возраст</span>
+                <span className="chapter__age-label">{t('Примерный возраст', 'Edad aproximada')}</span>
                 <span className="chapter__age-value">
                   <span className="chapter__age-num">{toAge}</span> {formatAge(toAge).split(' ')[1]}
                 </span>

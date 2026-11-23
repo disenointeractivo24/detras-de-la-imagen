@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { t } from '../lib/i18n';
 
 interface Props {
   open: boolean;
@@ -11,8 +12,9 @@ interface Props {
 }
 
 /** Diálogo modal accesible basado en <dialog> nativo. */
-export function ConfirmDialog({ open, title, body, confirmLabel, cancelLabel = 'Отмена', onConfirm, onCancel }: Props) {
+export function ConfirmDialog({ open, title, body, confirmLabel, cancelLabel, onConfirm, onCancel }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
+  const cancelText = cancelLabel ?? t('Отмена', 'Cancelar');
 
   useEffect(() => {
     const d = ref.current;
@@ -44,7 +46,7 @@ export function ConfirmDialog({ open, title, body, confirmLabel, cancelLabel = '
         </p>
         <div className="confirm__actions">
           <button type="button" className="btn btn--ghost" onClick={onCancel}>
-            {cancelLabel}
+            {cancelText}
           </button>
           <button type="button" className="btn btn--solid" onClick={onConfirm}>
             {confirmLabel}

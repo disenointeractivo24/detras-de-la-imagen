@@ -1,5 +1,6 @@
 import { Check, HelpCircle, X } from 'lucide-react';
 import type { Evaluation } from '../lib/types';
+import { t } from '../lib/i18n';
 
 interface Props {
   id: string;
@@ -8,9 +9,9 @@ interface Props {
 }
 
 const OPTIONS: { value: Evaluation; label: string; Icon: typeof Check }[] = [
-  { value: 'confirmado', label: 'Да, это было.', Icon: Check },
-  { value: 'rechazado', label: 'Нет, этого не было.', Icon: X },
-  { value: 'incierto', label: 'Не уверен.', Icon: HelpCircle },
+  { value: 'confirmado', get label() { return t('Да, это было.', 'Sí, pasó.'); }, Icon: Check },
+  { value: 'rechazado', get label() { return t('Нет, этого не было.', 'No, eso nunca pasó.'); }, Icon: X },
+  { value: 'incierto', get label() { return t('Не уверен.', 'No estoy seguro.'); }, Icon: HelpCircle },
 ];
 
 /** Las tres respuestas posibles ante un recuerdo. La persona decide; el sistema nunca clasifica. */
@@ -18,7 +19,7 @@ export function MemoryDecision({ id, value, onChange }: Props) {
   return (
     <fieldset className="decision">
       <legend className="decision__q" id={`pregunta-${id}`}>
-        Это правда было?
+        {t('Это правда было?', '¿Esto realmente pasó?')}
       </legend>
       <div className="decision__options">
         {OPTIONS.map(({ value: v, label, Icon }) => (

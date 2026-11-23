@@ -1,10 +1,11 @@
 import { Fragment, useRef } from 'react';
-import { introLines } from '../lib/narrative';
+import { introLines } from '../lib/content';
 import { useExperience } from '../lib/store';
 import { STAGES } from '../lib/types';
-import { DEMO_FIRST_PHOTO } from '../lib/demo';
+import { DEMO_FIRST_PHOTO } from '../lib/content';
 import { gsap, imgAttrs, useGSAP } from '../lib/visual';
 import { LifeChapter } from './LifeChapter';
+import { t } from '../lib/i18n';
 
 /** Escena 04 + 05: la biografía visual recorrida cronológicamente con el scroll. */
 export function BiographyTimeline() {
@@ -30,7 +31,7 @@ export function BiographyTimeline() {
     { scope: root, dependencies: [reduced] },
   );
 
-  const titleWords = 'Такой мы видим твою историю.'.split(' ');
+  const titleWords = t('Такой мы видим твою историю.', 'Así creemos que fue tu historia.').split(' ');
   let cursor = 0;
   const firstOf = (stageId: string) => memories.find((m) => m.stage === stageId);
 
@@ -42,7 +43,7 @@ export function BiographyTimeline() {
             {titleWords.map((w, i) => (
               <Fragment key={i}>
                 <span className="w-wrap">
-                  <span className={`w ${w === 'историю.' ? 'w--italic' : ''}`}>{w}</span>
+                  <span className={`w ${w === t('историю.', 'historia.') ? 'w--italic' : ''}`}>{w}</span>
                 </span>{' '}
               </Fragment>
             ))}
@@ -52,14 +53,14 @@ export function BiographyTimeline() {
             <span className="bio-open__shade" />
           </figure>
           <div className="bio-open__lines">
-            <p className="bio-open__line bio-open__source">По тому, что ты нам рассказал</p>
+            <p className="bio-open__line bio-open__source">{t('По тому, что ты нам рассказал', 'A partir de lo que nos contaste')}</p>
             {lines.map((l) => (
               <p key={l} className="bio-open__line bio-open__statement">
                 {l}
               </p>
             ))}
             <p className="bio-open__line bio-open__instr">
-              Листай. Если чего-то не было — зачеркни.
+              {t('Листай. Если чего-то не было — зачеркни.', 'Desliza. Si algo no pasó, táchalo tú.')}
             </p>
           </div>
         </div>
