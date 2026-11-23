@@ -3423,3 +3423,13 @@ body::after,
   .memory__text { flex: 0 1 520px; min-width: 340px; }
   .memory__torn { margin-inline: 0; }
 }
+
+/* Cuando se borra lo inventado y vuelve la foto real, se muestra completa, sin el velo de «no pasó» */
+.memory__torn.is-real .memory__photo {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+.memory__torn.is-real .memory__paper { opacity: 0 !important; }

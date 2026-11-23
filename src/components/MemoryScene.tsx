@@ -112,7 +112,7 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
       <div className="memory__visual">
         <div className="memory__tilt">
           <figure className="memory__frame">
-            <div ref={tornRef} className={`memory__torn ${swapping ? 'is-swapping' : ''}`} style={{ clipPath: tornClip(index + 11, 1.6, ['top', 'bottom']) }}>
+            <div ref={tornRef} className={`memory__torn ${swapping ? 'is-swapping' : ''} ${m.realImage && shown === m.realImage ? 'is-real' : ''}`} style={{ clipPath: tornClip(index + 11, 1.6, ['top', 'bottom']) }}>
             <div className="memory__photo">
               <img key={shown} {...imgAttrs(shown, "(max-width: 960px) 100vw, 60vw")} alt={m.imageAlt} loading="lazy" decoding="async" />
             </div>
