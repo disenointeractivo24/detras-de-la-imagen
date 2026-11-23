@@ -7,6 +7,7 @@
 import { ART_POOL, BANK, IMAGE_ALT, STAGE_IMAGES, type Ctx, type Entry, type InterestVocab } from './memoryBank';
 import type { Evaluation, LifeStage, Memory, MemoryKind, Profile, VisualState } from './types';
 import { fechaLarga } from './zodiac';
+import { interestGroup } from './i18n';
 import { ru } from './visual';
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -58,7 +59,8 @@ const VOCAB: { claves: string[]; v: Omit<InterestVocab, 'tema'> }[] = [
 function vocabFor(interes: string): InterestVocab {
   const limpio = interes.trim();
   const lower = limpio.toLowerCase();
-  const match = VOCAB.find((g) => g.claves.some((c) => lower.includes(c)));
+  // El grupo se busca con palabras clave de ambos idiomas (ver i18n.ts).
+  const match = VOCAB[interestGroup(limpio)];
   // El interés se usa siempre entre comillas y en nominativo, tal como lo escribió la persona.
   const tema = limpio ? lower.replace(/[«»"]/g, '') : 'то, что ты любил';
   if (match) return { tema, ...match.v };

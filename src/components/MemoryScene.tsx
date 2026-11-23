@@ -7,6 +7,7 @@ import { useExperience } from '../lib/store';
 import type { Memory } from '../lib/types';
 import { formatAge, gsap, imgAttrs, scrollToId, tornClip, useGSAP } from '../lib/visual';
 import { MemoryDecision } from './MemoryDecision';
+import { t } from '../lib/i18n';
 
 interface Props {
   memory: Memory;
@@ -130,7 +131,7 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
             </svg>
             {swapping && (
               <div className="undo" aria-live="polite">
-                <p>{shownImage(m) === m.image ? 'Возвращаю версию машины…' : 'Стираю то, чего не было…'}</p>
+                <p>{shownImage(m) === m.image ? t('Возвращаю версию машины…', 'Restaurando la versión de la máquina…') : t('Стираю то, чего не было…', 'Eliminando lo que no pasó…')}</p>
               </div>
             )}
             <PromptGeneration memory={m} reduced={reduced} target={tornRef} />
@@ -151,7 +152,7 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
             />
             </div>
             <figcaption className="sr-only">
-              Иллюстрация, созданная для этого воспоминания; это не настоящая фотография из твоей жизни.
+              {t('Иллюстрация, созданная для этого воспоминания; это не настоящая фотография из твоей жизни.', 'Imagen ilustrativa generada para representar este recuerdo; no es una fotografía real de tu vida.')}
             </figcaption>
           </figure>
           <span className="memory__tape" aria-hidden>
@@ -159,12 +160,12 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
           </span>
           {m.visualState === 'reconocido' && (
             <span className="memory__stamp memory__stamp--ok">
-              <Check size={14} aria-hidden /> Воспоминание узнано
+              <Check size={14} aria-hidden /> {t('Воспоминание узнано', 'Recuerdo reconocido')}
             </span>
           )}
           {m.visualState === 'incierto' && (
             <span className="memory__stamp memory__stamp--doubt">
-              <HelpCircle size={14} aria-hidden /> Не подтверждено
+              <HelpCircle size={14} aria-hidden /> {t('Не подтверждено', 'Sin confirmar')}
             </span>
           )}
         </div>
@@ -172,7 +173,7 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
 
       <div className="memory__text">
         <p className="memory__meta memory__reveal">
-          <span>Воспоминание {n}</span>
+          <span>{t('Воспоминание', 'Recuerdo')} {n}</span>
           <span className="memory__date">{dateLabel}</span>
         </p>
         <h3 id={`titulo-${m.id}`} className="memory__title memory__reveal">
@@ -182,7 +183,7 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
         <div className="memory__statement-wrap memory__reveal">
           {m.correction && !editing && (
             <>
-              <p className="memory__yours-label">Твоя версия</p>
+              <p className="memory__yours-label">{t('Твоя версия', 'Tu versión')}</p>
               <p className="memory__yours">{m.correction}</p>
             </>
           )}
@@ -202,14 +203,14 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
                 maxLength={400}
                 autoFocus
                 onChange={(e) => setDraft(e.target.value)}
-                aria-label="Твоя версия этого воспоминания"
+                aria-label={t('Твоя версия этого воспоминания', 'Tu versión de este recuerdo')}
               />
               <div className="memory__tools">
                 <button type="submit" className="draw__tool draw__tool--done">
-                  <Check size={14} aria-hidden /> Сохранить
+                  <Check size={14} aria-hidden /> {t('Сохранить', 'Guardar')}
                 </button>
                 <button type="button" className="draw__tool" onClick={() => setEditing(false)}>
-                  Отмена
+                  {t('Отмена', 'Cancelar')}
                 </button>
               </div>
             </form>
@@ -241,16 +242,16 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
                   setEditing(true);
                 }}
               >
-                <Pencil size={14} aria-hidden /> Изменить текст
+                <Pencil size={14} aria-hidden /> {t('Изменить текст', 'Editar el texto')}
               </button>
               <button type="button" className={`draw__tool ${drawing ? 'is-on' : ''}`} onClick={() => setDrawing((d) => !d)}>
-                <Brush size={14} aria-hidden /> {drawing ? 'Рисую…' : 'Мел'}
+                <Brush size={14} aria-hidden /> {drawing ? t('Рисую…', 'Dibujando…') : t('Мел', 'Tiza')}
               </button>
             </div>
           )}
         </div>
 
-        <p className="memory__hint memory__reveal">Рисуй на фото: <b>✕</b> — этого не было, <b>✓</b> — это было. Нажми на неверные слова, чтобы зачеркнуть их.</p>
+        <p className="memory__hint memory__reveal">{t(<>Рисуй на фото: <b>✕</b> — этого не было, <b>✓</b> — это было. Нажми на неверные слова, чтобы зачеркнуть их.</>, <>Raya la foto: una <b>✕</b> si no pasó, un <b>✓</b> si pasó. Toca las palabras que no son ciertas para tacharlas.</>)}</p>
 
         <div className="memory__reveal">
           <MemoryDecision
@@ -262,17 +263,17 @@ export function MemoryScene({ memory: m, index, nextId }: Props) {
 
         <div className="memory__feedback" aria-live="polite">
           {m.evaluation === 'confirmado' && (
-            <p className="feedback feedback--ok">Совпало. Но машина не вспомнила — она угадала.</p>
+            <p className="feedback feedback--ok">{t('Совпало. Но машина не вспомнила — она угадала.', 'Acertó. Pero no lo recordó: lo adivinó.')}</p>
           )}
           {m.evaluation === 'incierto' && (
-            <p className="feedback feedback--doubt">Если ты сомневаешься, почему машина была так уверена?</p>
+            <p className="feedback feedback--doubt">{t('Если ты сомневаешься, почему машина была так уверена?', 'Si tú dudas, ¿por qué la máquina lo afirmó con tanta seguridad?')}</p>
           )}
-          {rejected && <p className="feedback feedback--no">Этого не было. И всё же звучало как твоя жизнь.</p>}
+          {rejected && <p className="feedback feedback--no">{t('Этого не было. И всё же звучало как твоя жизнь.', 'Nunca pasó. Y aun así sonaba a tu vida.')}</p>}
         </div>
 
         {m.evaluation !== 'pendiente' && (
           <button type="button" className="link-btn memory__next" onClick={() => scrollToId(nextId, reduced)}>
-            Дальше во времени <ArrowDown size={14} aria-hidden />
+            {t('Дальше во времени', 'Seguir avanzando en el tiempo')} <ArrowDown size={14} aria-hidden />
           </button>
         )}
       </div>

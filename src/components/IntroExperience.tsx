@@ -1,7 +1,8 @@
 import { useRef } from 'react';
-import { DEMO_NAME } from '../lib/demo';
+import { DEMO_NAME } from '../lib/content';
 import { useExperience } from '../lib/store';
 import { gsap, img, scrollToId, tornClip, useGSAP } from '../lib/visual';
+import { t } from '../lib/i18n';
 
 /** Fragmentos fotográficos ilustrativos dispersos alrededor del título. */
 const FRAGMENTS = [
@@ -16,7 +17,7 @@ const FRAGMENTS = [
   { src: 'nina-columpio', x: 88, y: 30, w: 12, r: 3 },
 ];
 
-const TITLE = ['ПО ТУ', 'СТОРОНУ', 'КАДРА'];
+const title = () => t(['ПО ТУ', 'СТОРОНУ', 'КАДРА'], ['DETRÁS', 'DE LA', 'IMAGEN']);
 
 export function IntroExperience() {
   const { state, dispatch } = useExperience();
@@ -105,8 +106,8 @@ export function IntroExperience() {
         </div>
 
         <div className="intro__content">
-          <h1 id="titulo-principal" className="intro__title" aria-label="По ту сторону кадра">
-            {TITLE.map((line, li) => (
+          <h1 id="titulo-principal" className="intro__title" aria-label={t('По ту сторону кадра', 'Detrás de la imagen')}>
+            {title().map((line, li) => (
               <span key={line} className={`intro__line ${li === 2 ? 'intro__line--italic' : ''}`} aria-hidden>
                 {[...line].map((c, ci) => (
                   <span key={ci} className="intro__char">
@@ -117,12 +118,12 @@ export function IntroExperience() {
             ))}
           </h1>
           <p className="intro__subtitle">
-            2050. ИИ уже восстанавливает всё прошлое человечества. Сегодня — твоё.
+            {t('2050. ИИ уже восстанавливает всё прошлое человечества. Сегодня — твоё.', '2050. La IA ya reconstruye el pasado completo de la humanidad. Hoy le toca al tuyo.')}
           </p>
           <div className="intro__cta">
             <div className="intro__buttons">
               <button type="button" className="btn btn--line" onClick={() => scrollToId('identidad', reduced)}>
-                Начать
+                {t('Начать', 'Comenzar experiencia')}
               </button>
               {state.memories.length > 0 && !state.demo && (
                 <button
@@ -133,7 +134,7 @@ export function IntroExperience() {
                     dispatch({ type: 'setPhase', phase: 'biografia' });
                   }}
                 >
-                  Продолжить мою биографию
+                  {t('Продолжить мою биографию', 'Continuar mi biografía')}
                 </button>
               )}
               <button
@@ -144,21 +145,21 @@ export function IntroExperience() {
                   dispatch({ type: 'loadDemo' });
                 }}
               >
-                Пример: {DEMO_NAME}
+                {t('Пример:', 'Ver el ejemplo de')} {DEMO_NAME}
               </button>
             </div>
             <div className="scroll-cue" aria-hidden>
               <span className="scroll-cue__line" />
               <span className="scroll-cue__dot" />
             </div>
-            <p className="intro__hint">Листай, чтобы начать.</p>
+            <p className="intro__hint">{t('Листай, чтобы начать.', 'Desliza para comenzar.')}</p>
           </div>
         </div>
 
         <p className="intro__handoff" aria-hidden>
-          Жизнь, которую ИИ думает, что знает.
+          {t('Жизнь, которую ИИ думает, что знает.', 'Una vida que la IA cree conocer.')}
         </p>
-        <p className="intro__disclaimer">Иллюстративные изображения. Ни одна фотография не принадлежит твоему прошлому.</p>
+        <p className="intro__disclaimer">{t('Иллюстративные изображения. Ни одна фотография не принадлежит твоему прошлому.', 'Imágenes ilustrativas. Ninguna fotografía pertenece a tu pasado.')}</p>
       </div>
     </section>
   );

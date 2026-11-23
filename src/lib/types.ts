@@ -1,3 +1,5 @@
+import { t, type Lang } from './i18n';
+
 export type LifeStage = 'infancia' | 'adolescencia' | 'decisiones' | 'presente';
 
 /** De dónde sale la información del recuerdo. */
@@ -72,11 +74,25 @@ export interface ExperienceState {
   comparisonPosition: number;
   selectedComparisonId: string | null;
   reducedMotion: boolean;
+  /** Idioma de la experiencia. */
+  lang: Lang;
 }
 
-export const STAGES: { id: LifeStage; numero: string; titulo: string; lema: string }[] = [
-  { id: 'infancia', numero: '01', titulo: 'Детство', lema: 'Первые воспоминания.' },
-  { id: 'adolescencia', numero: '02', titulo: 'Юность', lema: 'Годы, которые начали тебя определять.' },
-  { id: 'decisiones', numero: '03', titulo: 'Решения', lema: 'Пути, которые ты выбрал.' },
-  { id: 'presente', numero: '04', titulo: 'Сейчас', lema: 'Кем ты стал.' },
+/** Etapas de la vida. Título y lema se leen en el idioma activo. */
+const stage = (id: LifeStage, numero: string, titulo: [string, string], lema: [string, string]) => ({
+  id,
+  numero,
+  get titulo() {
+    return t(...titulo);
+  },
+  get lema() {
+    return t(...lema);
+  },
+});
+
+export const STAGES: { id: LifeStage; numero: string; readonly titulo: string; readonly lema: string }[] = [
+  stage('infancia', '01', ['Детство', 'Infancia'], ['Первые воспоминания.', 'Los primeros recuerdos.']),
+  stage('adolescencia', '02', ['Юность', 'Adolescencia'], ['Годы, которые начали тебя определять.', 'Los años que empezaron a definirte.']),
+  stage('decisiones', '03', ['Решения', 'Decisiones'], ['Пути, которые ты выбрал.', 'Los caminos que elegiste.']),
+  stage('presente', '04', ['Сейчас', 'Presente'], ['Кем ты стал.', 'En quién te has convertido.']),
 ];

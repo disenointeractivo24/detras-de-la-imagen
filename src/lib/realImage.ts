@@ -19,7 +19,8 @@ function remainingLayers(m: Memory): string[] {
   const struck = struckWords(m);
   const erased = m.erased ?? [];
   if (m.layers) return m.layers.filter((l) => !hit(struck, l.anchors) && !erased.includes(l.id)).map((l) => l.id).sort();
-  return hit(struck, m.anchors ?? []) ? [] : ['todo'];
+  // «todo» en erased: se borró tachando palabras en el otro idioma.
+  return hit(struck, m.anchors ?? []) || erased.includes('todo') ? [] : ['todo'];
 }
 
 /** true si la persona ya borró todo lo inventado de la imagen. */

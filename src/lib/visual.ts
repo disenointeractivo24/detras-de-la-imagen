@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { t } from './i18n';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -78,8 +79,8 @@ export function ru(n: number, one: string, few: string, many: string) {
 }
 
 export function formatAge(age: number | null) {
-  if (age === null) return 'Возраст неизвестен';
-  return ru(age, 'год', 'года', 'лет');
+  if (age === null) return t('Возраст неизвестен', 'Edad desconocida');
+  return t(ru(age, 'год', 'года', 'лет'), age === 1 ? '1 año' : `${age} años`);
 }
 
 export function scrollToId(id: string, reduced = false) {

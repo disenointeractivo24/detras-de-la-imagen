@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
-import { DEMO_PROFILE, demoMemories } from './demo';
-import { generateBiography, newSeed, visualStateFor } from './narrative';
+import { demoMemories, demoProfile, generateBiography, newSeed, translateMemories, visualStateFor } from './content';
+import { setCurrentLang, t, translateHito, type Lang } from './i18n';
 import type { Evaluation, ExperienceState, Phase, Profile } from './types';
 
 const STORAGE_KEY = 'detras-de-la-imagen:v1';
@@ -29,6 +29,7 @@ export const initialState: ExperienceState = {
   comparisonPosition: 50,
   selectedComparisonId: null,
   reducedMotion: !!prefersReduced,
+  lang: 'ru',
 };
 
 type Action =
@@ -45,6 +46,7 @@ type Action =
   | { type: 'setComparison'; position: number }
   | { type: 'selectComparison'; id: string | null }
   | { type: 'setReducedMotion'; value: boolean }
+  | { type: 'setLang'; lang: Lang }
   | { type: 'reset' };
 
 function reducer(state: ExperienceState, action: Action): ExperienceState {
@@ -57,7 +59,7 @@ function reducer(state: ExperienceState, action: Action): ExperienceState {
         ...state,
         seed,
         demo: false,
-        memories: generateBiography(state.profile, seed),
+        memories: generateBiography(state.profile, seed, state.lang),
         phase: 'reconstruccion',
         currentStage: '',
         selectedComparisonId: null,
@@ -68,10 +70,11 @@ function reducer(state: ExperienceState, action: Action): ExperienceState {
       return {
         ...initialState,
         reducedMotion: state.reducedMotion,
+        lang: state.lang,
         demo: true,
         phase: 'reconstruccion',
-        profile: DEMO_PROFILE,
-        memories: demoMemories(),
+        profile: demoProfile(state.lang),
+        memories: demoMemories(state.lang),
       };
     case 'setPhase':
       return { ...state, phase: action.phase };
@@ -126,8 +129,21 @@ function reducer(state: ExperienceState, action: Action): ExperienceState {
       return { ...state, selectedComparisonId: action.id };
     case 'setReducedMotion':
       return { ...state, reducedMotion: action.value };
+    case 'setLang': {
+      if (action.lang === state.lang) return state;
+      // La biografía ya generada se traduce conservando las decisiones de la persona.
+      const profile = state.demo
+        ? demoProfile(action.lang)
+        : { ...state.profile, hito: translateHito(state.profile.hito, action.lang) };
+      return {
+        ...state,
+        lang: action.lang,
+        profile,
+        memories: translateMemories(state.memories, profile, state.seed, state.demo, action.lang),
+      };
+    }
     case 'reset':
-      return { ...initialState, reducedMotion: state.reducedMotion };
+      return { ...initialState, reducedMotion: state.reducedMotion, lang: state.lang };
   }
 }
 
@@ -139,9 +155,9 @@ function load(): ExperienceState {
     if (parsed.version !== 1) return initialState;
     // La experiencia siempre empieza en la portada. El ejemplo no se conserva (se puede volver a abrir);
     // una biografía propia sí, y la portada ofrece continuarla.
-    if (parsed.demo) return { ...initialState, reducedMotion: parsed.reducedMotion ?? initialState.reducedMotion };
+    if (parsed.demo) return { ...initialState, reducedMotion: parsed.reducedMotion ?? initialState.reducedMotion, lang: parsed.lang ?? 'ru' };
     const phase: Phase = 'intro';
-    return { ...initialState, ...parsed, profile: { ...emptyProfile, ...parsed.profile }, phase };
+    return { ...initialState, ...parsed, lang: parsed.lang ?? 'ru', profile: { ...emptyProfile, ...parsed.profile }, phase };
   } catch {
     return initialState;
   }
@@ -164,6 +180,22 @@ const ExperienceContext = createContext<Ctx | null>(null);
 
 export function ExperienceProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, undefined, load);
+  // El idioma se fija antes de que rendericen los hijos, para que t() lo lea.
+  setCurrentLang(state.lang);
+
+  useEffect(() => {
+    document.documentElement.lang = state.lang;
+    document.title = t('По ту сторону кадра', 'Detrás de la imagen');
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        'content',
+        t(
+          'По ту сторону кадра: интерактивный опыт о жизни, которую ИИ думает, что знает.',
+          'Detrás de la imagen: una experiencia interactiva sobre una vida que la IA cree conocer.',
+        ),
+      );
+  }, [state.lang]);
 
   useEffect(() => {
     try {
